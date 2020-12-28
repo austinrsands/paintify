@@ -1,0 +1,67 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["plugin:react/recommended", "airbnb", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "react-hooks", "jsx-a11y"],
+  "rules": {
+    "quotes": ["error", "single"],
+    "function-paren-newline": 0,
+    "no-param-reassign": 0,
+    "implicit-arrow-linebreak": 0,
+    "operator-linebreak": 0,
+    "arrow-parens": ["error", "always"],
+    "object-curly-newline": 0,
+    "import/prefer-default-export": "off",
+    "one-var": 0,
+    "one-var-declaration-per-line": 0,
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "react/forbid-prop-types": 0,
+    "react/no-array-index-key": 0,
+    "react/no-did-mount-set-state": 0,
+    "react/no-did-update-set-state": 0,
+    "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
+    "react/prop-types": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "react/jsx-wrap-multilines": 0,
+    "react/jsx-props-no-spreading": 0,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/destructuring-assignment": 1,
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      2,
+      { "functions": false, "classes": true }
+    ],
+    "@typescript-eslint/indent": 0,
+    "@typescript-eslint/camelcase": 0,
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": 1,
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "jest/valid-expect": 0,
+    "no-unused-expressions": 0,
+    "import/no-cycle": 0,
+    "import/no-unresolved": 0,
+    "import/order": 1,
+    "import/extensions": [2, "never"],
+    "@typescript-eslint/no-explicit-any": 0,
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "lines-between-class-members": [
+      "warn",
+      "always",
+      { "exceptAfterSingleLine": true }
+    ]
+  }
+}
