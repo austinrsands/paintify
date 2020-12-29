@@ -4,7 +4,6 @@
   "description": "a web app for turning images into paintings",
   "repository": "https://github.com/austinrsands/paintify.git",
   "author": "Austin Sands <austinrsands@gmail.com>",
-  "license": "MIT",
   "private": true,
   "devDependencies": {
     "@types/react": "^17.0.0",
