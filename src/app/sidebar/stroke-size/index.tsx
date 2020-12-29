@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import { GridOnRounded } from '@material-ui/icons';
+import GridOnRounded from '@material-ui/icons/GridOnRounded';
 import TabPanel, { TabPanelProps } from '../../../generic/tab-panel';
 import IconTab, { IconTabProps } from '../../../generic/icon-tab';
 

@@ -3,6 +3,7 @@ import { Box, CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
 import { darkTheme } from './theme';
 import Sidebar from './sidebar';
 import Topbar from './topbar';
+import Painting from './painting';
 
 const useStyles = makeStyles({
   root: {
@@ -33,6 +34,7 @@ const App: React.FC = () => {
         <Sidebar className={classes.sidebar} />
         <Box className={classes.content}>
           <Topbar className={classes.topbar} />
+          <Painting className={classes.painting} />
         </Box>
       </Box>
     </ThemeProvider>

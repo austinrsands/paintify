@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import { CompareRounded } from '@material-ui/icons';
+import CompareRounded from '@material-ui/icons/CompareRounded';
 import TabPanel, { TabPanelProps } from '../../../generic/tab-panel';
 import IconTab, { IconTabProps } from '../../../generic/icon-tab';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import { WavesRounded } from '@material-ui/icons';
+import WavesRounded from '@material-ui/icons/WavesRounded';
 import TabPanel, { TabPanelProps } from '../../../generic/tab-panel';
 import IconTab, { IconTabProps } from '../../../generic/icon-tab';
 
