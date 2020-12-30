@@ -20,7 +20,6 @@ export const darkTheme = createMuiTheme({
       letterSpacing: '0.05rem',
     },
     fontFamily: [
-      'Proxima Nova',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',
