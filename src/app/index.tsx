@@ -1,10 +1,11 @@
 import React from 'react';
 import { CssBaseline, makeStyles, ThemeProvider } from '@material-ui/core';
 import theme from './theme';
-import Sidebar from './sidebar';
-import Topbar from './topbar';
-import Painting from './painting';
-import useWindowSize from '../generic/use-window-size';
+import Sidebar from './components/sidebar';
+import Topbar from './components/topbar';
+import Painting from './components/painting';
+import useWindowSize from '../generic/hooks/use-window-size';
+import AppContextProvider from './context/provider';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -24,15 +25,17 @@ const useStyles = makeStyles({
 });
 
 const App: React.FC = () => {
-  const windowSize = useWindowSize(0);
+  const windowSize = useWindowSize(1);
   const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Topbar className={classes.topbar} />
-      <Sidebar className={classes.sidebar} />
-      <Painting className={classes.painting} size={windowSize} />
+      <AppContextProvider>
+        <Topbar className={classes.topbar} />
+        <Sidebar className={classes.sidebar} />
+        <Painting className={classes.painting} size={windowSize} />
+      </AppContextProvider>
     </ThemeProvider>
   );
 };
