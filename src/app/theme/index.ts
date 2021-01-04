@@ -1,24 +1,18 @@
-import { createMuiTheme } from '@material-ui/core';
-import { grey, lightBlue } from '@material-ui/core/colors';
+import { createMuiTheme, responsiveFontSizes } from '@material-ui/core';
+import { lightBlue } from '@material-ui/core/colors';
 
-export const darkTheme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     type: 'dark',
     primary: {
       main: lightBlue[600],
-      contrastText: grey[200],
     },
     background: {
-      default: grey[900],
-    },
-    text: {
-      primary: grey[200],
+      default: '#121212',
+      paper: '#212121',
     },
   },
   typography: {
-    allVariants: {
-      letterSpacing: '0.05rem',
-    },
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -33,3 +27,5 @@ export const darkTheme = createMuiTheme({
     ].join(','),
   },
 });
+
+export default responsiveFontSizes(theme);

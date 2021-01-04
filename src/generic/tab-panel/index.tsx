@@ -4,8 +4,8 @@ import React from 'react';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: '15rem',
-    padding: '1rem',
+    minWidth: '20rem',
+    padding: '1rem 1.5rem',
   },
   title: {
     paddingBottom: '1rem',

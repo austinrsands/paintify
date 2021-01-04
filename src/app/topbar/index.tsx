@@ -1,12 +1,16 @@
 import React from 'react';
 import { Box, BoxProps, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
+import GithubButton from './github-button';
+import PlayPauseButton from './play-pause-button';
+import ReplayButton from './replay-button';
+import SaveButton from './save-button';
 
 const useStyles = makeStyles({
   root: {
     display: 'flex',
     alignItems: 'center',
-    padding: '1rem',
+    padding: '0.7rem 1rem',
   },
   left: {
     display: 'flex',
@@ -23,9 +27,8 @@ const useStyles = makeStyles({
     justifyContent: 'flex-end',
     flex: 1,
   },
-  group: {
-    display: 'flex',
-    alignItems: 'center',
+  centerButton: {
+    margin: '0 2rem',
   },
 });
 
@@ -33,9 +36,15 @@ const Topbar: React.FC<BoxProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   return (
     <Box className={clsx(classes.root, className)} {...rest}>
-      <Box className={classes.left}>Left</Box>
-      <Box className={classes.center}>Center</Box>
-      <Box className={classes.right}>Right</Box>
+      <Box className={classes.left} />
+      <Box className={classes.center}>
+        <PlayPauseButton className={classes.centerButton} />
+        <ReplayButton className={classes.centerButton} />
+        <SaveButton className={classes.centerButton} />
+      </Box>
+      <Box className={classes.right}>
+        <GithubButton />
+      </Box>
     </Box>
   );
 };
