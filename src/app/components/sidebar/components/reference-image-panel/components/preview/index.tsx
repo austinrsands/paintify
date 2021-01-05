@@ -22,13 +22,13 @@ const ReferenceImagePreview: React.FC<
     if (state.imageData) context.putImageData(state.imageData, 0, 0);
   };
 
-  return (
+  return state.imageData ? (
     <Canvas
-      width={state.imageData?.width}
-      height={state.imageData?.height}
+      width={state.imageData.width}
+      height={state.imageData.height}
       onSetup={setup}
       {...props}
     />
-  );
+  ) : null;
 };
 export default ReferenceImagePreview;

@@ -27,7 +27,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
   };
 
   const draw = (context: CanvasRenderingContext2D, deltaTime: number) => {
-    context.fillStyle = '#FFFFFF';
+    context.fillStyle = '#212121';
     context.fillRect(size.width / 2 - 250, size.height / 2 - 250, 500, 500);
   };
 

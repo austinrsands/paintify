@@ -34,6 +34,7 @@ const useStyles = makeStyles({
   },
   panel: {
     height: '100%',
+    paddingBottom: '2rem',
   },
 });
 
