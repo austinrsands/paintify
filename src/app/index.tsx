@@ -10,6 +10,7 @@ import AppContextProvider from './context/provider';
 const useStyles = makeStyles({
   sidebar: {
     position: 'fixed',
+    width: '22rem',
     height: '100vh',
   },
   topbar: {

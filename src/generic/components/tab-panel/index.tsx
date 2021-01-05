@@ -1,17 +1,9 @@
-import { Box, BoxProps, makeStyles, Typography } from '@material-ui/core';
-import clsx from 'clsx';
 import React from 'react';
+import { makeStyles, Paper, PaperProps } from '@material-ui/core';
+import clsx from 'clsx';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: '20rem',
-    padding: '1rem 1.5rem',
-  },
-  title: {
-    paddingBottom: '1rem',
-    fontWeight: 'bold',
-  },
-  content: {
     display: 'flex',
     flexDirection: 'column',
   },
@@ -20,36 +12,28 @@ const useStyles = makeStyles({
 interface Props {
   value?: any;
   index: number;
-  title: string;
 }
 
-export type TabPanelProps = Props & BoxProps;
+export type TabPanelProps = Props & PaperProps;
 
 const TabPanel: React.FC<TabPanelProps> = ({
   value,
   index,
-  title,
   children,
   className,
   ...rest
 }) => {
   const classes = useStyles();
-  return (
-    <Box
+  return value === index ? (
+    <Paper
       className={clsx(classes.root, className)}
+      square
       hidden={value !== index}
       {...rest}
     >
-      {value === index && (
-        <Box className={classes.content}>
-          <Typography className={classes.title} variant="h6">
-            {title}
-          </Typography>
-          {children}
-        </Box>
-      )}
-    </Box>
-  );
+      {children}
+    </Paper>
+  ) : null;
 };
 
 export default TabPanel;

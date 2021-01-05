@@ -15,34 +15,46 @@ const AppReducer = (state: AppState, action: AppAction) => {
         ...state,
       };
     }
-    case 'update-image-state': {
+    case 'update-image-data': {
       return {
         ...state,
-        imageState: action.state,
+        imageData: action.data,
       };
     }
-    case 'update-stroke-appearance-state': {
+    case 'update-brush-roundness': {
       return {
         ...state,
-        strokeAppearanceState: action.state,
+        brushRoundness: action.roundness,
       };
     }
-    case 'update-stroke-size-state': {
+    case 'update-brush-density': {
       return {
         ...state,
-        strokeSizeState: action.state,
+        brushDensity: action.density,
       };
     }
-    case 'update-stroke-direction-state': {
+    case 'update-bristle-alpha': {
       return {
         ...state,
-        strokeDirectionState: action.state,
+        bristleAlpha: action.alpha,
       };
     }
-    case 'update-image-masking-state': {
+    case 'update-noise-scale': {
       return {
         ...state,
-        imageMaskingState: action.state,
+        noiseScale: action.scale,
+      };
+    }
+    case 'update-quad-tree': {
+      return {
+        ...state,
+        quadTree: action.quadTree,
+      };
+    }
+    case 'update-brightness-range': {
+      return {
+        ...state,
+        brightnessRange: action.range,
       };
     }
     default: {

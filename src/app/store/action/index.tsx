@@ -1,16 +1,15 @@
-import ImageMaskingState from '../../components/sidebar/components/image-masking/store/state';
-import ImageState from '../../components/sidebar/components/image-upload/store/state';
-import StrokeAppearanceState from '../../components/sidebar/components/stroke-appearance/store/state';
-import StrokeDirectionState from '../../components/sidebar/components/stroke-direction/store/state';
-import StrokeSizeState from '../../components/sidebar/components/stroke-size/store/state';
+import BrightnessRange from '../../util/brightness-range';
+import QuadTree from '../../util/quad-tree';
 
 type AppAction =
   | { type: 'toggle-paint' }
   | { type: 'reset' }
-  | { type: 'update-image-state'; state: ImageState }
-  | { type: 'update-stroke-appearance-state'; state: StrokeAppearanceState }
-  | { type: 'update-stroke-size-state'; state: StrokeSizeState }
-  | { type: 'update-stroke-direction-state'; state: StrokeDirectionState }
-  | { type: 'update-image-masking-state'; state: ImageMaskingState };
+  | { type: 'update-image-data'; data: ImageData }
+  | { type: 'update-brush-roundness'; roundness: number }
+  | { type: 'update-brush-density'; density: number }
+  | { type: 'update-bristle-alpha'; alpha: number }
+  | { type: 'update-noise-scale'; scale: number }
+  | { type: 'update-quad-tree'; quadTree: QuadTree }
+  | { type: 'update-brightness-range'; range: BrightnessRange };
 
 export default AppAction;

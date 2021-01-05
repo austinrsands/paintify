@@ -2,13 +2,15 @@
   "compilerOptions": {
     /* Basic Options */
     "target": "es5",
-    "module": "commonjs",
+    "module": "esnext",
+    "lib": ["ESNext", "DOM"],
     "jsx": "react",
 
     /* Strict Type-Checking Options */
     "strict": true,
 
     /* Module Resolution Options */
+    "moduleResolution": "node",
     "baseUrl": "./src",
     "paths": {
       "~*": ["./*"]

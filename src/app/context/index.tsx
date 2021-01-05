@@ -10,10 +10,9 @@ type AppContextData = {
 const AppContext = createContext<AppContextData | null>(null);
 
 export const useAppContext = () => {
-  const appContext = useContext(AppContext);
-  if (appContext == null)
-    throw new Error('App context has not been initialized');
-  return appContext;
+  const context = useContext(AppContext);
+  if (context == null) throw new Error('App context has not been initialized');
+  return context;
 };
 
 export default AppContext;
