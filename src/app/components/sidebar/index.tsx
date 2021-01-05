@@ -6,11 +6,13 @@ import BrushRounded from '@material-ui/icons/BrushRounded';
 import CompareRounded from '@material-ui/icons/CompareRounded';
 import WavesRounded from '@material-ui/icons/WavesRounded';
 import GridOnRounded from '@material-ui/icons/GridOnRounded';
+import grey from '@material-ui/core/colors/grey';
 import ImageMaskingPanel from './components/image-masking-panel';
 import ReferenceImagePanel from './components/reference-image-panel';
 import StrokeStylePanel from './components/stroke-style-panel';
 import StrokeDirectionPanel from './components/stroke-direction-panel';
 import StrokeSizePanel from './components/stroke-size-panel';
+import { useAppContext } from '../../context';
 
 const useStyles = makeStyles({
   root: {
@@ -36,11 +38,15 @@ const useStyles = makeStyles({
     height: '100%',
     paddingBottom: '2rem',
   },
+  disabledTab: {
+    color: grey[600],
+  },
 });
 
 const Sidebar: React.FC<BoxProps> = ({ className, ...rest }) => {
   const classes = useStyles();
   const [value, setValue] = useState<number | boolean>(0);
+  const { state } = useAppContext();
 
   // If same tab is clicked twice, hide the panels
   const handleChange = (_event: React.ChangeEvent<{}>, newValue: number) =>
@@ -59,12 +65,26 @@ const Sidebar: React.FC<BoxProps> = ({ className, ...rest }) => {
         >
           <Tab className={classes.tab} icon={<ImageRounded />} disableRipple />
           <Tab className={classes.tab} icon={<BrushRounded />} disableRipple />
-          <Tab className={classes.tab} icon={<WavesRounded />} disableRipple />
-          <Tab className={classes.tab} icon={<GridOnRounded />} disableRipple />
           <Tab
             className={classes.tab}
+            classes={{ disabled: classes.disabledTab }}
+            icon={<GridOnRounded />}
+            disableRipple
+            disabled={!state.imageData}
+          />
+          <Tab
+            className={classes.tab}
+            classes={{ disabled: classes.disabledTab }}
+            icon={<WavesRounded />}
+            disableRipple
+            disabled={!state.imageData}
+          />
+          <Tab
+            className={classes.tab}
+            classes={{ disabled: classes.disabledTab }}
             icon={<CompareRounded />}
             disableRipple
+            disabled={!state.imageData}
           />
         </Tabs>
       </Paper>

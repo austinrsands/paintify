@@ -9,7 +9,7 @@ type AppAction =
   | { type: 'update-brush-density'; density: number }
   | { type: 'update-bristle-alpha'; alpha: number }
   | { type: 'update-noise-scale'; scale: number }
-  | { type: 'update-quad-tree'; quadTree: QuadTree }
+  | { type: 'update-quad-tree'; tree: QuadTree }
   | { type: 'update-brightness-range'; range: BrightnessRange };
 
 export default AppAction;

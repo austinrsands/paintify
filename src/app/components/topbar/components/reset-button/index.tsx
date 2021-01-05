@@ -5,7 +5,7 @@ import StyleProps from '../../../../util/style-props';
 import { useAppContext } from '../../../../context';
 
 const ResetButton: React.FC<StyleProps> = (props) => {
-  const { dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const handleClick = () => dispatch({ type: 'reset' });
 
   return (
@@ -13,6 +13,7 @@ const ResetButton: React.FC<StyleProps> = (props) => {
       size="medium"
       onClick={handleClick}
       aria-label="replay"
+      disabled={!state.imageData}
       {...props}
     >
       <ReplayRoundedIcon />

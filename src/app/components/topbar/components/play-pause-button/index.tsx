@@ -15,6 +15,7 @@ const PlayPauseButton: React.FC<StyleProps> = (props) => {
       size="medium"
       onClick={handleClick}
       aria-label={state.isPainting ? 'pause' : 'play'}
+      disabled={!state.imageData}
       {...props}
     >
       {state.isPainting ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}

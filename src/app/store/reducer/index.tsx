@@ -48,7 +48,7 @@ const AppReducer = (state: AppState, action: AppAction) => {
     case 'update-quad-tree': {
       return {
         ...state,
-        quadTree: action.quadTree,
+        quadTree: action.tree,
       };
     }
     case 'update-brightness-range': {
