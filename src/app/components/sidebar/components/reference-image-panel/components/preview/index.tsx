@@ -15,6 +15,7 @@ const ReferenceImagePreview: React.FC<StyleProps> = (props) => {
       width={state.imageData.width}
       height={state.imageData.height}
       onSetup={setup}
+      noLoop
       {...props}
     />
   ) : null;

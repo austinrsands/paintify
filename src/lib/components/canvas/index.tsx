@@ -5,6 +5,7 @@ const DEFAULT_TARGET_FRAMERATE = 120;
 
 interface Props {
   targetFramerate?: number;
+  noLoop?: boolean;
   onSetup?: (context: CanvasRenderingContext2D) => void;
   onPredraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
   onDraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
@@ -19,6 +20,7 @@ export type CanvasProps = Props &
 
 const Canvas: React.FC<CanvasProps> = ({
   targetFramerate = DEFAULT_TARGET_FRAMERATE,
+  noLoop,
   onSetup,
   onPredraw,
   onDraw,
@@ -51,6 +53,9 @@ const Canvas: React.FC<CanvasProps> = ({
 
   // Start animation loop
   useEffect(() => {
+    // Don't animate if noLoop is true
+    if (noLoop) return;
+
     // Used for clearing timeout
     let timeoutID: number;
 
@@ -69,11 +74,12 @@ const Canvas: React.FC<CanvasProps> = ({
     if (drawingContext) animate();
 
     // Perform cleanup
+    // eslint-disable-next-line consistent-return
     return () => {
       if (requestID) cancelAnimationFrame(requestID);
       if (timeoutID) clearTimeout(timeoutID);
     };
-  }, [drawingContext, targetFramerate]);
+  }, [drawingContext, noLoop, targetFramerate]);
 
   // Call drawing functions every frame
   useEffect(() => {

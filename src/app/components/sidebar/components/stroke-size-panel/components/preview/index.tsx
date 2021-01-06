@@ -4,6 +4,8 @@ import { useAppContext } from '../../../../../../context';
 import { drawQuadTree, fillBackground } from '../../../../../../util/drawing';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 
+const PREVIEW_WIDTH = 300;
+
 const QuadTreePreview: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
 
@@ -17,9 +19,10 @@ const QuadTreePreview: React.FC<StyleProps> = (props) => {
 
   return state.imageData ? (
     <TabPanelPreview
-      width={state.imageData.width}
-      height={state.imageData.height}
+      width={PREVIEW_WIDTH}
+      height={PREVIEW_WIDTH * (state.imageData.height / state.imageData.width)}
       onSetup={setup}
+      noLoop
       {...props}
     />
   ) : null;
