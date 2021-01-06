@@ -1,7 +1,7 @@
-import Brush from '../../../lib/structures/brush';
-import Color from '../../../lib/structures/color';
-import Vector2 from '../../../lib/structures/vector2';
-import QuadTree from '../../../lib/structures/quad-tree';
+import Brush from '../../lib/structures/brush';
+import Color from '../../lib/structures/color';
+import Vector2 from '../../lib/structures/vector2';
+import QuadTree from '../../lib/structures/quad-tree';
 import { bezierPoint, bezierTangent, colinear } from '../math';
 
 export const fillBackground = (
@@ -46,6 +46,49 @@ export const fillEllipse = (
   context.fill();
 };
 
+const drawQuadTreeIntersection = (
+  context: CanvasRenderingContext2D,
+  tree: QuadTree,
+  scale: Vector2,
+) => {
+  if (
+    tree.neighbors.topLeft ||
+    tree.neighbors.topRight ||
+    tree.neighbors.bottomLeft ||
+    tree.neighbors.bottomRight
+  ) {
+    // Draw horizontal line.
+    const startX = tree.position.x;
+    const endX = tree.position.x + tree.size.width;
+    const y = tree.position.y + tree.size.height / 2;
+    drawLine(
+      context,
+      { x: startX * scale.x, y: y * scale.y },
+      { x: endX * scale.x, y: y * scale.y },
+    );
+
+    // Draw vertical line.
+    const startY = tree.position.y;
+    const endY = tree.position.y + tree.size.height;
+    const x = tree.position.x + tree.size.width / 2;
+    drawLine(
+      context,
+      { x: x * scale.x, y: startY * scale.y },
+      { x: x * scale.x, y: endY * scale.y },
+    );
+
+    // Repeat recursively
+    if (tree.neighbors.topLeft)
+      drawQuadTreeIntersection(context, tree.neighbors.topLeft, scale);
+    if (tree.neighbors.topRight)
+      drawQuadTreeIntersection(context, tree.neighbors.topRight, scale);
+    if (tree.neighbors.bottomLeft)
+      drawQuadTreeIntersection(context, tree.neighbors.bottomLeft, scale);
+    if (tree.neighbors.bottomRight)
+      drawQuadTreeIntersection(context, tree.neighbors.bottomRight, scale);
+  }
+};
+
 export const drawQuadTree = (
   context: CanvasRenderingContext2D,
   quadTree: QuadTree,
@@ -55,46 +98,8 @@ export const drawQuadTree = (
     x: context.canvas.width / quadTree.size.width,
     y: context.canvas.height / quadTree.size.height,
   };
-
   context.lineWidth = lineWidth;
-
-  const drawIntersection = (tree: QuadTree) => {
-    if (
-      tree.neighbors.topLeft ||
-      tree.neighbors.topRight ||
-      tree.neighbors.bottomLeft ||
-      tree.neighbors.bottomRight
-    ) {
-      // Draw horizontal line.
-      const startX = tree.position.x;
-      const endX = tree.position.x + tree.size.width;
-      const y = tree.position.y + tree.size.height / 2;
-      drawLine(
-        context,
-        { x: startX * scale.x, y: y * scale.y },
-        { x: endX * scale.x, y: y * scale.y },
-      );
-
-      // Draw vertical line.
-      const startY = tree.position.y;
-      const endY = tree.position.y + tree.size.height;
-      const x = tree.position.x + tree.size.width / 2;
-      drawLine(
-        context,
-        { x: x * scale.x, y: startY * scale.y },
-        { x: x * scale.x, y: endY * scale.y },
-      );
-
-      // Repeat recursively
-      if (tree.neighbors.topLeft) drawIntersection(tree.neighbors.topLeft);
-      if (tree.neighbors.topRight) drawIntersection(tree.neighbors.topRight);
-      if (tree.neighbors.bottomLeft)
-        drawIntersection(tree.neighbors.bottomLeft);
-      if (tree.neighbors.bottomRight)
-        drawIntersection(tree.neighbors.bottomRight);
-    }
-  };
-  drawIntersection(quadTree);
+  drawQuadTreeIntersection(context, quadTree, scale);
 };
 
 export const paintStamp = (
@@ -175,6 +180,7 @@ export const paintStroke = (
   color: Color,
   length: number,
   taper: number = 0,
+  lift: number = 0,
   rotation: number = 0,
   segmentLength: number = 25,
 ) => {
@@ -202,7 +208,12 @@ export const paintStroke = (
 
   brush.bristleOffsets.forEach((offset) => {
     // Determine how long bristle stays on canvas
-    const lifetime = 1 - taper * Math.abs(offset.y / (brush.size.height / 2));
+    const taperAmount = taper * Math.abs(offset.y / (brush.size.height / 2));
+    const liftAmount =
+      lift *
+      ((brush.size.width - (offset.x + brush.size.width / 2)) /
+        brush.size.width);
+    const lifetime = 1 - Math.max(taperAmount, liftAmount);
     const pathLength = lifetime * actualLength;
 
     // Use a single segment when path is straight to improve performance

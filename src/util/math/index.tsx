@@ -1,5 +1,5 @@
-import InclusiveRange from '../../../lib/structures/inclusive-range';
-import Vector2 from '../../../lib/structures/vector2';
+import InclusiveRange from '../../lib/structures/inclusive-range';
+import Vector2 from '../../lib/structures/vector2';
 
 // Returns the point on the given quadratic bezier at time between 0 and 1
 export const bezierPoint = (
@@ -27,3 +27,11 @@ export const colinear = (a: Vector2, b: Vector2, c: Vector2) =>
 // Clamps a number in an inclusive range.
 export const clamp = (value: number, range: InclusiveRange) =>
   Math.min(Math.max(value, range.min), range.max);
+
+// Returns the standard deviation of the given array
+export const standardDeviation = (nums: number[]) => {
+  const mean = nums.reduce((a, b) => a + b) / nums.length;
+  return Math.sqrt(
+    nums.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / nums.length,
+  );
+};

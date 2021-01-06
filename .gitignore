@@ -4,3 +4,6 @@ node_modules/
 # build
 dist/
 .cache/
+
+# logs
+debug.log

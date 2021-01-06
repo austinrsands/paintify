@@ -1,7 +1,10 @@
 import React from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
-import { drawQuadTree, fillBackground } from '../../../../../../util/drawing';
+import {
+  drawQuadTree,
+  fillBackground,
+} from '../../../../../../../util/drawing';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 
 const PREVIEW_WIDTH = 300;

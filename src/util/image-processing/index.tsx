@@ -1,16 +1,9 @@
-import Color from '../../../lib/structures/color';
-import InclusiveRange from '../../../lib/structures/inclusive-range';
-import Vector2 from '../../../lib/structures/vector2';
-import QuadTree from '../../../lib/structures/quad-tree';
-import Size from '../../../lib/structures/size';
-
-// Returns the standard deviation of the given array
-export const standardDeviation = (nums: number[]) => {
-  const mean = nums.reduce((a, b) => a + b) / nums.length;
-  return Math.sqrt(
-    nums.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / nums.length,
-  );
-};
+import Color from '../../lib/structures/color';
+import InclusiveRange from '../../lib/structures/inclusive-range';
+import Vector2 from '../../lib/structures/vector2';
+import QuadTree from '../../lib/structures/quad-tree';
+import Size from '../../lib/structures/size';
+import { standardDeviation } from '../math';
 
 // Returns true if the given point is contained in the given image data
 export const pixelIsContained = (imageData: ImageData, point: Vector2) =>

@@ -6,7 +6,7 @@ import TabPanel, {
 import TabPanelTitle from '../../../../../lib/components/tab-panel-title';
 import TabPanelContent from '../../../../../lib/components/tab-panel/content';
 import { useAppContext } from '../../../../context';
-import generateQuadTree from '../../../../util/image-processing';
+import generateQuadTree from '../../../../../util/image-processing';
 import QuadTreePreview from './components/preview';
 
 const useStyles = makeStyles((theme) => ({
