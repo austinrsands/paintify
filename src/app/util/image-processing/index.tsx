@@ -1,8 +1,8 @@
-import Color from '../color';
-import InclusiveRange from '../inclusive-range';
-import Position from '../position';
-import QuadTree from '../quad-tree';
-import Size from '../size';
+import Color from '../../../lib/structures/color';
+import InclusiveRange from '../../../lib/structures/inclusive-range';
+import Vector2 from '../../../lib/structures/vector2';
+import QuadTree from '../../../lib/structures/quad-tree';
+import Size from '../../../lib/structures/size';
 
 // Returns the standard deviation of the given array
 export const standardDeviation = (nums: number[]) => {
@@ -13,7 +13,7 @@ export const standardDeviation = (nums: number[]) => {
 };
 
 // Returns true if the given point is contained in the given image data
-export const pixelIsContained = (imageData: ImageData, point: Position) =>
+export const pixelIsContained = (imageData: ImageData, point: Vector2) =>
   point.x >= 0 &&
   point.x < imageData.width &&
   point.y >= 0 &&
@@ -22,7 +22,7 @@ export const pixelIsContained = (imageData: ImageData, point: Position) =>
 // Returns the color of the pixel in image data at the given point
 export const pixelColor = (
   imageData: ImageData,
-  point: Position,
+  point: Vector2,
 ): Color | undefined => {
   if (pixelIsContained(imageData, point)) {
     const redIndex = point.y * (imageData.width * 4) + point.x * 4;
@@ -38,7 +38,7 @@ export const pixelColor = (
 // Return the brightness of the pixel in image data at the given point
 export const pixelBrightness = (
   imageData: ImageData,
-  point: Position,
+  point: Vector2,
 ): number | undefined => {
   const color = pixelColor(imageData, point);
   return color !== undefined
@@ -50,13 +50,13 @@ export const pixelBrightness = (
 const sampleBrightnesses = (
   imageData: ImageData,
   samplingDensity: number,
-  position: Position,
+  position: Vector2,
   size: Size,
 ): number[] => {
   const brightnesses: number[] = [];
   const numSamples = samplingDensity * size.width * size.height;
   for (let i = 0; i < numSamples; i++) {
-    const samplePoint: Position = {
+    const samplePoint: Vector2 = {
       x: Math.floor(position.x + Math.random() * size.width),
       y: Math.floor(position.y + Math.random() * size.height),
     };
@@ -71,7 +71,7 @@ const generateQuadTree = (
   imageData: ImageData,
   samplingDensity: number = 0.001,
   subdivisionThreshold: number = 10,
-  diagonalRange: InclusiveRange = { min: 1 / Math.sqrt(2), max: 200 },
+  diagonalRange: InclusiveRange = { min: Math.SQRT1_2, max: 200 },
 ): QuadTree => {
   // Initialize quad tree
   const quadTree = new QuadTree(

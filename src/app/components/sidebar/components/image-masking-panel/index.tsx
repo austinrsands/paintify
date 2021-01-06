@@ -2,15 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import TabPanel, {
   TabPanelProps,
-} from '../../../../../generic/components/tab-panel';
-import TabPanelTitle from '../../../../../generic/components/tab-panel-title';
-import TabPanelContent from '../../../../../generic/components/tab-panel-content';
+} from '../../../../../lib/components/tab-panel';
+import TabPanelTitle from '../../../../../lib/components/tab-panel-title';
+import TabPanelContent from '../../../../../lib/components/tab-panel/content';
 
 const useStyles = makeStyles({
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
+  content: {},
 });
 
 const ImageMaskingPanel: React.FC<Omit<TabPanelProps, 'title'>> = (props) => {

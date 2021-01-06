@@ -1,4 +1,4 @@
-import Position from '../position';
+import Vector2 from '../vector2';
 import Size from '../size';
 
 interface Neighbors<T> {
@@ -9,11 +9,11 @@ interface Neighbors<T> {
 }
 
 class QuadTree {
-  readonly position: Position;
+  readonly position: Vector2;
   readonly size: Size;
   readonly neighbors: Neighbors<QuadTree>;
 
-  constructor(position: Position, size: Size) {
+  constructor(position: Vector2, size: Size) {
     this.position = position;
     this.size = size;
     this.neighbors = {};
@@ -26,16 +26,16 @@ class QuadTree {
     };
 
     // Determing neighboring origins
-    const topLeftPoint: Position = this.position;
-    const topMiddlePoint: Position = {
+    const topLeftPoint: Vector2 = this.position;
+    const topMiddlePoint: Vector2 = {
       x: this.position.x + halfSize.width,
       y: this.position.y,
     };
-    const middleLeftPoint: Position = {
+    const middleLeftPoint: Vector2 = {
       x: this.position.x,
       y: this.position.y + halfSize.height,
     };
-    const centerPoint: Position = {
+    const centerPoint: Vector2 = {
       x: this.position.x + halfSize.width,
       y: this.position.y + halfSize.height,
     };
@@ -48,7 +48,7 @@ class QuadTree {
   }
 
   // Returns true if this tree contains the given point, false otherwise
-  public contains(point: Position): boolean {
+  public contains(point: Vector2): boolean {
     return (
       point.x >= this.position.x &&
       point.x <= this.position.x + this.size.width &&
@@ -58,7 +58,7 @@ class QuadTree {
   }
 
   // Returns the smallest tree containing the given point
-  public smallestBoundingTree(point: Position): QuadTree | undefined {
+  public smallestBoundingTree(point: Vector2): QuadTree | undefined {
     if (this.neighbors.topLeft?.contains(point))
       return this.neighbors.topLeft.smallestBoundingTree(point);
 
@@ -75,7 +75,7 @@ class QuadTree {
   }
 
   // Returns the size of the smallest tree containing the given point
-  public smallestBoundingSize(point: Position): Size | undefined {
+  public smallestBoundingSize(point: Vector2): Size | undefined {
     const boundingTree = this.smallestBoundingTree(point);
     return boundingTree ? boundingTree.size : undefined;
   }

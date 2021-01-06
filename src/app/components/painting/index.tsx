@@ -1,7 +1,7 @@
 import React from 'react';
 import { Portal } from '@material-ui/core';
-import Canvas, { CanvasProps } from '../../../generic/components/canvas';
-import Size from '../../util/size';
+import Canvas, { CanvasProps } from '../../../lib/components/canvas';
+import Size from '../../../lib/structures/size';
 
 const canvasRoot = document.getElementById('canvas-root');
 

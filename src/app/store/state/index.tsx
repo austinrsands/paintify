@@ -1,5 +1,7 @@
-import BrightnessRange, { FULL_RANGE } from '../../util/brightness-range';
-import QuadTree from '../../util/quad-tree';
+import BrightnessRange, {
+  FULL_RANGE,
+} from '../../../lib/structures/brightness-range';
+import QuadTree from '../../../lib/structures/quad-tree';
 
 interface AppState {
   isPainting: boolean;

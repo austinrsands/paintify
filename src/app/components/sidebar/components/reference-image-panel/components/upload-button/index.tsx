@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-import StyleProps from '../../../../../../util/style-props/index';
+import StyleProps from '../../../../../../../lib/structures/style-props/index';
 import { useAppContext } from '../../../../../../context';
 
 const getData = (bitmap: ImageBitmap): ImageData | null => {

@@ -1,5 +1,5 @@
-import BrightnessRange from '../../util/brightness-range';
-import QuadTree from '../../util/quad-tree';
+import BrightnessRange from '../../../lib/structures/brightness-range';
+import QuadTree from '../../../lib/structures/quad-tree';
 
 type AppAction =
   | { type: 'toggle-paint' }

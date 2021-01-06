@@ -3,7 +3,7 @@ import { Typography, TypographyProps } from '@material-ui/core';
 
 const ReferenceImageUploadMessage: React.FC<TypographyProps> = (props) => (
   <Typography variant="subtitle2" color="textSecondary" {...props}>
-    No image uploaded
+    Upload an image to begin
   </Typography>
 );
 

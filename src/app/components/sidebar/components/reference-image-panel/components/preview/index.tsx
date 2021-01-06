@@ -1,21 +1,9 @@
 import React from 'react';
-import Canvas, {
-  CanvasProps,
-} from '../../../../../../../generic/components/canvas';
+import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
+import StyleProps from '../../../../../../../lib/structures/style-props';
 
-const ReferenceImagePreview: React.FC<
-  Omit<
-    CanvasProps,
-    | 'width'
-    | 'height'
-    | 'onSetup'
-    | 'onDraw'
-    | 'onPredraw'
-    | 'onPostdraw'
-    | 'targetFramerate'
-  >
-> = (props) => {
+const ReferenceImagePreview: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
 
   const setup = (context: CanvasRenderingContext2D) => {
@@ -23,7 +11,7 @@ const ReferenceImagePreview: React.FC<
   };
 
   return state.imageData ? (
-    <Canvas
+    <TabPanelPreview
       width={state.imageData.width}
       height={state.imageData.height}
       onSetup={setup}

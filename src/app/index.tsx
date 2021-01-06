@@ -4,7 +4,7 @@ import theme from './theme';
 import Sidebar from './components/sidebar';
 import Topbar from './components/topbar';
 import Painting from './components/painting';
-import useWindowSize from '../generic/hooks/use-window-size';
+import useWindowSize from '../lib/hooks/use-window-size';
 import AppContextProvider from './context/provider';
 
 const useStyles = makeStyles({
