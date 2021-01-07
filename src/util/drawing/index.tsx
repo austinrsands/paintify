@@ -3,6 +3,9 @@ import Color from '../../lib/structures/color';
 import Vector2 from '../../lib/structures/vector2';
 import QuadTree from '../../lib/structures/quad-tree';
 import { bezierPoint, bezierTangent, colinear } from '../math';
+import StrokeOptions from '../../lib/structures/stroke-options';
+import Bristle from '../../lib/structures/bristle';
+import { brightness } from '../image-processing';
 
 export const fillBackground = (
   context: CanvasRenderingContext2D,
@@ -102,32 +105,10 @@ export const drawQuadTree = (
   drawQuadTreeIntersection(context, quadTree, scale);
 };
 
-export const paintStamp = (
-  context: CanvasRenderingContext2D,
-  brush: Brush,
-  position: Vector2,
-  color: Color,
-) => {
-  context.fillStyle = `rgba(${color.red}, ${color.green}, ${color.blue}, ${brush.alpha})`;
-  brush.bristleOffsets.forEach((offset) => {
-    const bristlePosition: Vector2 = {
-      x: position.x + offset.x,
-      y: position.y + offset.y,
-    };
-    const bristleRadii: Vector2 = {
-      x: brush.bristleRadius,
-      y: brush.bristleRadius,
-    };
-    fillEllipse(context, bristlePosition, bristleRadii);
-  });
-};
-
 const drawBristle = (
   context: CanvasRenderingContext2D,
-  offset: Vector2,
-  radius: number,
+  bristle: Bristle,
   color: Color,
-  alpha: number,
   start: Vector2,
   control: Vector2,
   end: Vector2,
@@ -138,8 +119,8 @@ const drawBristle = (
   if (timestep <= 0 || lifetime <= 0) return;
 
   // Configure context
-  context.strokeStyle = `rgba(${color.red}, ${color.green}, ${color.blue}, ${alpha})`;
-  context.lineWidth = radius * 2;
+  context.strokeStyle = `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha})`;
+  context.lineWidth = bristle.radius * 2;
   context.lineCap = 'round';
 
   context.beginPath();
@@ -157,12 +138,12 @@ const drawBristle = (
     const currentBristlePosition: Vector2 = {
       x:
         currentBrushPosition.x +
-        Math.cos(currentRotation) * offset.x -
-        Math.sin(currentRotation) * offset.y,
+        Math.cos(currentRotation) * bristle.offset.x -
+        Math.sin(currentRotation) * bristle.offset.y,
       y:
         currentBrushPosition.y +
-        Math.sin(currentRotation) * offset.x +
-        Math.cos(currentRotation) * offset.y,
+        Math.sin(currentRotation) * bristle.offset.x +
+        Math.cos(currentRotation) * bristle.offset.y,
     };
 
     if (time !== 0) {
@@ -176,16 +157,12 @@ const drawBristle = (
 export const paintStroke = (
   context: CanvasRenderingContext2D,
   brush: Brush,
+  options: StrokeOptions,
   position: Vector2,
-  color: Color,
-  length: number,
-  taper: number = 0,
-  lift: number = 0,
   rotation: number = 0,
-  segmentLength: number = 25,
 ) => {
   // Used to calculate start and end points
-  const actualLength = length - brush.size.width;
+  const actualLength = options.length - brush.size.width;
   const oppositeLength = (actualLength / 2) * Math.sin(rotation);
   const adjacentLength = (actualLength / 2) * Math.cos(rotation);
 
@@ -206,12 +183,13 @@ export const paintStroke = (
   // Used to optimize drawing
   const strokeIsStraight = colinear(start, end, control);
 
-  brush.bristleOffsets.forEach((offset) => {
+  brush.bristles.forEach((bristle) => {
     // Determine how long bristle stays on canvas
-    const taperAmount = taper * Math.abs(offset.y / (brush.size.height / 2));
+    const taperAmount =
+      options.taper * Math.abs(bristle.offset.y / (brush.size.height / 2));
     const liftAmount =
-      lift *
-      ((brush.size.width - (offset.x + brush.size.width / 2)) /
+      options.lift *
+      ((brush.size.width - (bristle.offset.x + brush.size.width / 2)) /
         brush.size.width);
     const lifetime = 1 - Math.max(taperAmount, liftAmount);
     const pathLength = lifetime * actualLength;
@@ -219,15 +197,25 @@ export const paintStroke = (
     // Use a single segment when path is straight to improve performance
     const numSegments = strokeIsStraight
       ? 1
-      : Math.max(Math.round(pathLength / segmentLength), 1);
+      : Math.max(Math.round(pathLength / options.segmentLength), 1);
     const timeStep = lifetime / numSegments;
+
+    // Determine shifted color
+    const baseColorBrightness = brightness(options.baseColor);
+    const availableBrightness =
+      bristle.shift > 0 ? 255 - baseColorBrightness : baseColorBrightness;
+    const channelOffset = bristle.shift * availableBrightness;
+    const color: Color = {
+      red: options.baseColor.red + channelOffset,
+      green: options.baseColor.green + channelOffset,
+      blue: options.baseColor.blue + channelOffset,
+      alpha: options.baseColor.alpha,
+    };
 
     drawBristle(
       context,
-      offset,
-      brush.bristleRadius,
+      bristle,
       color,
-      brush.alpha,
       start,
       control,
       end,

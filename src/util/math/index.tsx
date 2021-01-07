@@ -35,3 +35,11 @@ export const standardDeviation = (nums: number[]) => {
     nums.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / nums.length,
   );
 };
+
+// Returns a random number in the given range, but it is right exclusive
+export const randomNumberInRange = (range: InclusiveRange) =>
+  Math.random() * (range.max - range.min) + range.min;
+
+// Returns average of numbers in given array
+export const average = (nums: number[]) =>
+  nums.reduce((a: number, b: number) => a + b) / nums.length;

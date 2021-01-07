@@ -4,26 +4,34 @@ import { fillBackground, paintStroke } from '../../../../../../../util/drawing';
 import Size from '../../../../../../../lib/structures/size';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 import Brush from '../../../../../../../lib/structures/brush';
+import Vector2 from '../../../../../../../lib/structures/vector2';
+import Color from '../../../../../../../lib/structures/color';
+import StrokeOptions from '../../../../../../../lib/structures/stroke-options';
 
 const PREVIEW_SIZE: Size = { width: 300, height: 200 };
-const BRUSH = new Brush({ width: 30, height: 60 }, 0.8, 0.1);
+const BRUSH = new Brush({ width: 30, height: 60 }, 0.7, 0.2);
 
 const BrushStrokePreview: React.FC<StyleProps> = (props) => {
   // Draw brush stroke
   const setup = (context: CanvasRenderingContext2D) => {
+    const position: Vector2 = {
+      x: context.canvas.width / 2,
+      y: context.canvas.height / 2,
+    };
+    const baseColor: Color = { red: 50, green: 168, blue: 82, alpha: 0.3 };
+    const length = 250;
+    const taper = 0.1;
+    const lift = 1;
+    const segmentLength = 25;
+    const options: StrokeOptions = {
+      baseColor,
+      length,
+      taper,
+      lift,
+      segmentLength,
+    };
     fillBackground(context);
-    paintStroke(
-      context,
-      BRUSH,
-      {
-        x: context.canvas.width / 2,
-        y: context.canvas.height / 2,
-      },
-      { red: 0, green: 0, blue: 0 },
-      250,
-      0.3,
-      1,
-    );
+    paintStroke(context, BRUSH, options, position);
   };
 
   return (

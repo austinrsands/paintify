@@ -64,7 +64,7 @@ const Canvas: React.FC<CanvasProps> = ({
 
     // Runs animation loop with frequency based on target framerate
     const animate = () => {
-      timeoutID = setTimeout(() => {
+      timeoutID = window.setTimeout(() => {
         requestID = requestAnimationFrame(animate);
       }, 1000 / targetFramerate);
       setFrameTime(Date.now());

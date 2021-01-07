@@ -5,6 +5,10 @@ import QuadTree from '../../lib/structures/quad-tree';
 import Size from '../../lib/structures/size';
 import { standardDeviation } from '../math';
 
+// Returns brightness of given color
+export const brightness = (color: Color) =>
+  (color.red + color.green + color.blue) / 3;
+
 // Returns true if the given point is contained in the given image data
 export const pixelIsContained = (imageData: ImageData, point: Vector2) =>
   point.x >= 0 &&
@@ -23,6 +27,7 @@ export const pixelColor = (
       red: imageData.data[redIndex],
       green: imageData.data[redIndex + 1],
       blue: imageData.data[redIndex + 2],
+      alpha: 1,
     };
   }
   return undefined;
@@ -34,9 +39,7 @@ export const pixelBrightness = (
   point: Vector2,
 ): number | undefined => {
   const color = pixelColor(imageData, point);
-  return color !== undefined
-    ? (color.red + color.green + color.blue) / 3
-    : undefined;
+  return color !== undefined ? brightness(color) : undefined;
 };
 
 // Return list of sampled brightnesses from the given section of the image
