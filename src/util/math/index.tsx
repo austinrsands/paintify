@@ -56,3 +56,9 @@ export const closestFactor = (num: number, target: number) => {
   }
   return num;
 };
+
+export const isEven = (num: number) => num % 2 === 0;
+export const isOdd = (num: number) => !isEven(num);
+
+export const randomSeed = (): string =>
+  Math.random().toString(36).slice(2).toUpperCase();

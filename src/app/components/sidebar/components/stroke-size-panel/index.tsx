@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
   content: {},
 }));
 
+const SAMPLING_DENSITY = 0.001;
+const SUBDIVISION_THRESHOLD = 10;
+
 const StrokeSizePanel: React.FC<TabPanelProps> = (props) => {
   const classes = useStyles();
   const { state, dispatch } = useAppContext();
@@ -22,7 +25,11 @@ const StrokeSizePanel: React.FC<TabPanelProps> = (props) => {
     if (state.imageData)
       dispatch({
         type: 'update-quad-tree',
-        tree: generateQuadTree(state.imageData),
+        tree: generateQuadTree(
+          state.imageData,
+          SAMPLING_DENSITY,
+          SUBDIVISION_THRESHOLD,
+        ),
       });
   }, [dispatch, state.imageData]);
 

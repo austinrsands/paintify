@@ -20,7 +20,7 @@ const sampleBrightnesses = (
       y: Math.floor(position.y + Math.random() * size.height),
     };
     const sampleBrightness = pixelBrightness(imageData, samplePoint);
-    if (sampleBrightness !== undefined) brightnesses.push(sampleBrightness);
+    brightnesses.push(sampleBrightness);
   }
   return brightnesses;
 };
@@ -28,8 +28,8 @@ const sampleBrightnesses = (
 // Returns a quad tree that has been subdivided according to variation in brightness
 export const generateQuadTree = (
   imageData: ImageData,
-  samplingDensity: number = 0.001,
-  subdivisionThreshold: number = 10,
+  samplingDensity: number,
+  subdivisionThreshold: number,
   diagonalRange: InclusiveRange = { min: Math.SQRT1_2, max: 200 },
 ): QuadTree => {
   // Initialize quad tree

@@ -13,27 +13,21 @@ export const pixelIsContained = (imageData: ImageData, point: Vector2) =>
   point.y < imageData.height;
 
 // Returns the color of the pixel in image data at the given point
-export const pixelColor = (
-  imageData: ImageData,
-  point: Vector2,
-): Color | undefined => {
-  if (pixelIsContained(imageData, point)) {
-    const redIndex = point.y * (imageData.width * 4) + point.x * 4;
-    return {
-      red: imageData.data[redIndex],
-      green: imageData.data[redIndex + 1],
-      blue: imageData.data[redIndex + 2],
-      alpha: 1,
-    };
-  }
-  return undefined;
+export const pixelColor = (imageData: ImageData, point: Vector2): Color => {
+  const redIndex = point.y * (imageData.width * 4) + point.x * 4;
+  return {
+    red: imageData.data[redIndex],
+    green: imageData.data[redIndex + 1],
+    blue: imageData.data[redIndex + 2],
+    alpha: 1,
+  };
 };
 
 // Return the brightness of the pixel in image data at the given point
 export const pixelBrightness = (
   imageData: ImageData,
   point: Vector2,
-): number | undefined => {
+): number => {
   const color = pixelColor(imageData, point);
-  return color !== undefined ? brightness(color) : undefined;
+  return brightness(color);
 };

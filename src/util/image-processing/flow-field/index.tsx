@@ -20,7 +20,12 @@ export const generateFlowField = (
     for (let x = spacing / 2; x < size.width; x += spacing) {
       const flowPoint: FlowPoint = {
         position: { x, y },
-        angle: strokeDirection(imageData, { x, y }, noiseScale, noiseSeed),
+        angle: strokeDirection(
+          imageData,
+          { x: Math.floor(x), y: Math.floor(y) },
+          noiseScale,
+          noiseSeed,
+        ),
       };
       flowPoints.push(flowPoint);
     }

@@ -17,7 +17,7 @@ const DirectionFieldPreview: React.FC<StyleProps> = (props) => {
   const flowField = useMemo(
     () =>
       state.imageData
-        ? generateFlowField(state.imageData, ARROWS_PER_LINE, 0.0001)
+        ? generateFlowField(state.imageData, ARROWS_PER_LINE, 0.00003)
         : undefined,
     [state.imageData],
   );
