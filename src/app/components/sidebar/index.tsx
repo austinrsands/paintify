@@ -54,7 +54,7 @@ const Sidebar: React.FC<BoxProps> = ({ className, ...rest }) => {
 
   return (
     <Box className={clsx(classes.root, className)} {...rest}>
-      <Paper className={classes.tabContainer} square elevation={3}>
+      <Paper className={classes.tabContainer} square>
         <Tabs
           variant="scrollable"
           indicatorColor="primary"

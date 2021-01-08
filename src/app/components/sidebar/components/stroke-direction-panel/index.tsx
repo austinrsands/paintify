@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core';
 import TabPanel, {
   TabPanelProps,
 } from '../../../../../lib/components/tab-panel';
-import TabPanelTitle from '../../../../../lib/components/tab-panel-title';
+import TabPanelTitle from '../../../../../lib/components/tab-panel/title';
 import TabPanelContent from '../../../../../lib/components/tab-panel/content';
+import DirectionFieldPreview from './components/preview';
 
 const useStyles = makeStyles({
   content: {},
@@ -15,7 +16,9 @@ const StrokeDirectionPanel: React.FC<TabPanelProps> = (props) => {
   return (
     <TabPanel {...props}>
       <TabPanelTitle>Stroke Direction</TabPanelTitle>
-      <TabPanelContent className={classes.content} />
+      <TabPanelContent className={classes.content}>
+        <DirectionFieldPreview />
+      </TabPanelContent>
     </TabPanel>
   );
 };

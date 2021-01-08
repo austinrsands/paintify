@@ -43,3 +43,16 @@ export const randomNumberInRange = (range: InclusiveRange) =>
 // Returns average of numbers in given array
 export const average = (nums: number[]) =>
   nums.reduce((a: number, b: number) => a + b) / nums.length;
+
+// Returns the greates common (positive) divisor betwen a and b
+export const greatestCommonDivisor = (a: number, b: number): number =>
+  b ? greatestCommonDivisor(b, a % b) : Math.abs(a);
+
+// Return the closest factor of num to target
+export const closestFactor = (num: number, target: number) => {
+  for (let i = 0; i < num; i++) {
+    if (num % (target + i) === 0) return target + i;
+    if (num % (target - i) === 0) return target - i;
+  }
+  return num;
+};

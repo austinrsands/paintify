@@ -3,11 +3,11 @@ import { makeStyles } from '@material-ui/core';
 import TabPanel, {
   TabPanelProps,
 } from '../../../../../lib/components/tab-panel';
-import TabPanelTitle from '../../../../../lib/components/tab-panel-title';
+import TabPanelTitle from '../../../../../lib/components/tab-panel/title';
 import TabPanelContent from '../../../../../lib/components/tab-panel/content';
 import { useAppContext } from '../../../../context';
-import generateQuadTree from '../../../../../util/image-processing';
 import QuadTreePreview from './components/preview';
+import { generateQuadTree } from '../../../../../util/image-processing/quad-tree';
 
 const useStyles = makeStyles((theme) => ({
   content: {},

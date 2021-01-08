@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 import { fillBackground } from '../../../../../../../util/drawing/background';
-import { drawQuadTree } from '../../../../../../../util/drawing/quad-tree';
+import { generateFlowField } from '../../../../../../../util/image-processing/flow-field';
+import { drawFlowField } from '../../../../../../../util/drawing/flow-field';
 
 const PREVIEW_WIDTH = 500;
+const ARROWS_PER_LINE = 25;
+const ARROW_LENGTH = 8;
+const ARROW_BLADE_LENGTH = 2;
 
-const QuadTreePreview: React.FC<StyleProps> = (props) => {
+const DirectionFieldPreview: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
+
+  const flowField = useMemo(
+    () =>
+      state.imageData
+        ? generateFlowField(state.imageData, ARROWS_PER_LINE, 0.0001)
+        : undefined,
+    [state.imageData],
+  );
 
   // Draw quad tree
   const setup = (context: CanvasRenderingContext2D) => {
-    if (state.quadTree) {
+    if (flowField) {
       context.fillStyle = 'white';
       fillBackground(context);
       context.lineWidth = 1;
-      drawQuadTree(context, state.quadTree);
+      context.strokeStyle = 'black';
+      drawFlowField(context, flowField, ARROW_LENGTH, ARROW_BLADE_LENGTH);
     }
   };
 
@@ -30,4 +43,4 @@ const QuadTreePreview: React.FC<StyleProps> = (props) => {
     />
   ) : null;
 };
-export default QuadTreePreview;
+export default DirectionFieldPreview;

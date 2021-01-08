@@ -1,12 +1,13 @@
 import React from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
-import { fillBackground, paintStroke } from '../../../../../../../util/drawing';
 import Size from '../../../../../../../lib/structures/size';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 import Brush from '../../../../../../../lib/structures/brush';
 import Vector2 from '../../../../../../../lib/structures/vector2';
 import Color from '../../../../../../../lib/structures/color';
 import StrokeOptions from '../../../../../../../lib/structures/stroke-options';
+import { fillBackground } from '../../../../../../../util/drawing/background';
+import { paintStroke } from '../../../../../../../util/drawing/stroke';
 
 const PREVIEW_SIZE: Size = { width: 300, height: 200 };
 const BRUSH = new Brush({ width: 30, height: 60 }, 0.7, 0.2);
@@ -30,6 +31,7 @@ const BrushStrokePreview: React.FC<StyleProps> = (props) => {
       lift,
       segmentLength,
     };
+    context.fillStyle = 'white';
     fillBackground(context);
     paintStroke(context, BRUSH, options, position);
   };

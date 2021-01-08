@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 
