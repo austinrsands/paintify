@@ -175,6 +175,8 @@ export const paintStroke = (
     x: position.x + adjacentLength,
     y: position.y - oppositeLength,
   };
+
+  // TODO: implement curved strokes
   const control: Vector2 = {
     x: position.x,
     y: position.y,

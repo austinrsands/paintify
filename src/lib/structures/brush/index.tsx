@@ -44,6 +44,12 @@ class Brush {
       };
       this.bristles.push(bristle);
     }
+
+    // Sort bristles by x offset so they are drawn in correct order
+    this.bristles.sort(
+      (a: Bristle, b: Bristle) =>
+        -a.offset.x + this.size.width / 2 - (-b.offset.x + this.size.width / 2),
+    );
   }
 }
 
