@@ -5,7 +5,15 @@ import Vector2 from '../../../lib/structures/vector2';
 import { standardDeviation } from '../../math';
 import { pixelBrightness } from '../pixels';
 
-// Return list of sampled brightnesses from the given section of the image
+/**
+ * Returns an array of pixel brightness values sampled from an image
+ *
+ * @param imageData the image to sample
+ * @param samplingDensity the density at which to sample points
+ * @param position the top left corner of the sampling area
+ * @param size the size of the sampling area
+ * @returns an array of pixel brightness values sampled from the given area of the image
+ */
 const sampleBrightnesses = (
   imageData: ImageData,
   samplingDensity: number,
@@ -25,12 +33,20 @@ const sampleBrightnesses = (
   return brightnesses;
 };
 
-// Returns a quad tree that has been subdivided according to variation in brightness
+/**
+ * Returns a quad tree that has been subdivided in areas of detail in an image
+ *
+ * @param imageData the image used to generate the quad tree
+ * @param samplingDensity the density at which to sample points
+ * @param subdivisionThreshold the standard deviation of brightness values at which to start subdividing
+ * @param subtreeDiagonalRange the range of allowed quad tree diagonal lengths
+ * @returns the generated quad tree
+ */
 export const generateQuadTree = (
   imageData: ImageData,
   samplingDensity: number,
   subdivisionThreshold: number,
-  diagonalRange: InclusiveRange = { min: Math.SQRT1_2, max: 200 },
+  subtreeDiagonalRange: InclusiveRange = { min: Math.SQRT1_2, max: 200 },
 ): QuadTree => {
   // Initialize quad tree
   const quadTree = new QuadTree(
@@ -43,10 +59,10 @@ export const generateQuadTree = (
     const diagonal = Math.hypot(tree.size.width, tree.size.height);
 
     // Stop subdividing if next subdivision would make diagonal too small
-    if (diagonal / 2 < diagonalRange.min) return;
+    if (diagonal / 2 < subtreeDiagonalRange.min) return;
 
     // Subdivide if diagonal is too big
-    if (diagonal > diagonalRange.max) {
+    if (diagonal > subtreeDiagonalRange.max) {
       tree.subdivide();
       if (tree.neighbors.topLeft) deepSubdivide(tree.neighbors.topLeft);
       if (tree.neighbors.topRight) deepSubdivide(tree.neighbors.topRight);

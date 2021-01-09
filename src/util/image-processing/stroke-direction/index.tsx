@@ -3,6 +3,15 @@ import Vector2 from '../../../lib/structures/vector2';
 import { convolveWithGrayscale } from '../convolution';
 import { SOBEL_X, SOBEL_Y } from '../kernels';
 
+/**
+ * Returns the direction that a stroke should be painted
+ *
+ * @param imageData the image to paint
+ * @param point the position of the stroke on the canvas
+ * @param noiseScale the amount to scale the simplex noise function
+ * @param noiseSeed the seed of the simplex noise function
+ * @returns the direction that the stroke should be painted
+ */
 export const strokeDirection = (
   imageData: ImageData,
   point: Vector2,

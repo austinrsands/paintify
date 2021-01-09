@@ -3,7 +3,15 @@ import FlowPoint from '../../../lib/structures/flow-point';
 import Size from '../../../lib/structures/size';
 import { strokeDirection } from '../stroke-direction';
 
-// Returns a flow field with angles determined by noise and image properties
+/**
+ * Returns a flow field with angles determined by noise and image properties
+ *
+ * @param imageData an image
+ * @param arrowsPerLine the number of arrows to draw per row
+ * @param noiseScale the amount to scale the simplex noise function
+ * @param noiseSeed the seed of the simplex noise function
+ * @return the generated flow field
+ */
 export const generateFlowField = (
   imageData: ImageData,
   arrowsPerLine: number,
