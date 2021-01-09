@@ -13,7 +13,7 @@ import TabPanelContent from '../../../../../lib/components/tab-panel/content';
 const useStyles = makeStyles((theme) => ({
   content: {},
   message: {
-    margin: '6rem 0 7rem 0',
+    margin: '4rem 0 5rem 0',
     alignSelf: 'center',
     textAlign: 'center',
   },
