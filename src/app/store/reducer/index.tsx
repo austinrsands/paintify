@@ -9,16 +9,16 @@ const AppReducer = (state: AppState, action: AppAction) => {
         isPainting: !state.isPainting,
       };
     }
-    case 'reset': {
-      return {
-        // TODO: implement reset
-        ...state,
-      };
-    }
     case 'update-image-data': {
       return {
         ...state,
         imageData: action.data,
+      };
+    }
+    case 'update-painting-context': {
+      return {
+        ...state,
+        paintingContext: action.context,
         isPainting: false,
       };
     }

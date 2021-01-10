@@ -7,8 +7,17 @@ import { useAppContext } from '../../../../context';
 const SaveButton: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
 
-  const handleClick = () => {
-    // TODO: implement save
+  const handleClick = async () => {
+    if (!state.paintingContext) return;
+
+    // Download painting as image
+    const blob = await state.paintingContext.canvas.convertToBlob();
+    const url = await URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'painting.png');
+    document.body.appendChild(link);
+    link.click();
   };
 
   return (

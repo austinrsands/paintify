@@ -3,6 +3,7 @@ import QuadTree from '../../../lib/structures/quad-tree';
 interface AppState {
   isPainting: boolean;
   imageData?: ImageData;
+  paintingContext?: OffscreenCanvasRenderingContext2D;
   quadTree?: QuadTree;
 }
 

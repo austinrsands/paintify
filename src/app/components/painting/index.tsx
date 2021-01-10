@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Portal } from '@material-ui/core';
 import Canvas, { CanvasProps } from '../../../lib/components/canvas';
 import Size from '../../../lib/structures/size';
@@ -32,14 +32,12 @@ type PaintingProps = Props &
   >;
 
 const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
-  const { state } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const [canvasRect, setCanvasRect] = useState<Rect>();
 
-  /**
-   * The canvas context where the brush strokes are painted
-   */
-  const fullSizePaintingContext = useMemo(() => {
-    if (!state.imageData) return null;
+  // Create the painting context
+  useEffect(() => {
+    if (!state.imageData) return;
 
     // Create offscreen canvas
     const canvas = new OffscreenCanvas(
@@ -50,29 +48,30 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     // Get drawing context
     const context = canvas.getContext('2d');
 
-    if (!context) return null;
+    if (!context) return;
 
     // Paint background of canvas white
     context.fillStyle = 'white';
     fillBackground(context);
 
-    return context;
-  }, [state.imageData]);
+    // Update the painting context
+    if (context) dispatch({ type: 'update-painting-context', context });
+  }, [dispatch, state.imageData]);
 
   // Determine space where painting is shown
   const setup = useCallback(() => {
-    if (!fullSizePaintingContext) return;
+    if (!state.paintingContext) return;
 
     // Determine the size of the painting
     const paintingSize: Size = {
-      width: fullSizePaintingContext.canvas.width,
-      height: fullSizePaintingContext.canvas.height,
+      width: state.paintingContext.canvas.width,
+      height: state.paintingContext.canvas.height,
     };
 
     // Determine the maximum allowed size of the canvas
     const maxCanvasSize: Size = {
-      width: size.width / 2,
-      height: size.height / 2,
+      width: size.width / 1.5,
+      height: size.height / 1.3,
     };
 
     // Determine the amount needed to scale the painting
@@ -92,21 +91,21 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
 
     // Update painting rect
     setCanvasRect({ size: canvasSize, position: canvasPosition });
-  }, [fullSizePaintingContext, size.height, size.width]);
+  }, [size.height, size.width, state.paintingContext]);
 
   // Draw the painting on the canvas
   const draw = useCallback(
     (context: CanvasRenderingContext2D, deltaTime: number) => {
-      if (!(canvasRect && fullSizePaintingContext)) return;
+      if (!(canvasRect && state.paintingContext)) return;
 
       // Paint a stroke on the painting
       if (state.isPainting)
         paintStroke(
-          fullSizePaintingContext,
+          state.paintingContext,
           new Brush({ width: 30, height: 60 }, 0.2, 0.7),
           {
-            x: Math.random() * fullSizePaintingContext.canvas.width,
-            y: Math.random() * fullSizePaintingContext.canvas.height,
+            x: Math.random() * state.paintingContext.canvas.width,
+            y: Math.random() * state.paintingContext.canvas.height,
           },
           Math.random() * 2 * Math.PI,
           { red: 50, green: 168, blue: 82, alpha: 0.3 },
@@ -119,14 +118,14 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
       // Show painting on canvas
       clearBackground(context);
       context.drawImage(
-        fullSizePaintingContext.canvas,
+        state.paintingContext.canvas,
         canvasRect.position.x,
         canvasRect.position.y,
         canvasRect.size.width,
         canvasRect.size.height,
       );
     },
-    [canvasRect, fullSizePaintingContext, state.isPainting],
+    [canvasRect, state.isPainting, state.paintingContext],
   );
 
   return (
@@ -136,7 +135,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
         height={size.height}
         onSetup={setup}
         onDraw={draw}
-        targetFramerate={2}
+        targetFramerate={60}
         {...rest}
       />
     </Portal>

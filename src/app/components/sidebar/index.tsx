@@ -37,6 +37,7 @@ const useStyles = makeStyles({
   panel: {
     height: '100%',
     paddingBottom: '2rem',
+    width: '25rem',
   },
   disabledTab: {
     color: grey[600],
