@@ -1,4 +1,5 @@
 import InclusiveRange from '../../lib/structures/inclusive-range';
+import Size from '../../lib/structures/size';
 import Vector from '../../lib/structures/vector';
 
 /**
@@ -121,3 +122,13 @@ export const isOdd = (num: number) => !isEven(num);
  */
 export const randomSeed = (): string =>
   Math.random().toString(36).slice(2).toUpperCase();
+
+/**
+ * Returns the amount needed to scale one rectangle to fit inside another
+ *
+ * @param source the size of the rectangle to scale
+ * @param target the size of the rectangle to fit the source rectangle
+ * @returns the amount needed to scale the source rectange to fit in the target rectangle
+ */
+export const scaleToFit = (source: Size, target: Size) =>
+  Math.min(target.width / source.width, target.height / source.height);
