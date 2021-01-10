@@ -3,18 +3,18 @@ import TabPanelPreview from '../../../../../../../lib/components/tab-panel/previ
 import Size from '../../../../../../../lib/structures/size';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 import Brush from '../../../../../../../lib/structures/brush';
-import Vector2 from '../../../../../../../lib/structures/vector2';
+import Vector from '../../../../../../../lib/structures/vector';
 import Color from '../../../../../../../lib/structures/color';
 import { fillBackground } from '../../../../../../../util/drawing/background';
 import { paintStroke } from '../../../../../../../util/drawing/stroke';
 
 const PREVIEW_SIZE: Size = { width: 300, height: 200 };
-const BRUSH = new Brush({ width: 30, height: 60 }, 0.7, 0.2);
+const BRUSH = new Brush({ width: 30, height: 60 }, 0.2, 0.7);
 
 const BrushStrokePreview: React.FC<StyleProps> = (props) => {
   // Draw brush stroke
   const setup = (context: CanvasRenderingContext2D) => {
-    const position: Vector2 = {
+    const position: Vector = {
       x: context.canvas.width / 2,
       y: context.canvas.height / 2,
     };

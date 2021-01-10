@@ -1,6 +1,6 @@
 import Brush from '../../../lib/structures/brush';
 import Color from '../../../lib/structures/color';
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 import { brightness } from '../../image-processing/pixels';
 import { colinear } from '../../math';
 import { drawBristle } from '../bristle';
@@ -21,7 +21,7 @@ import { drawBristle } from '../bristle';
 export const paintStroke = (
   context: CanvasRenderingContext2D,
   brush: Brush,
-  position: Vector2,
+  position: Vector,
   rotation: number,
   paintColor: Color,
   length: number,
@@ -35,17 +35,17 @@ export const paintStroke = (
   const adjacentLength = (actualLength / 2) * Math.cos(rotation);
 
   // Determine points for bezier curve
-  const start: Vector2 = {
+  const start: Vector = {
     x: position.x - adjacentLength,
     y: position.y + oppositeLength,
   };
-  const end: Vector2 = {
+  const end: Vector = {
     x: position.x + adjacentLength,
     y: position.y - oppositeLength,
   };
 
   // TODO: implement curved strokes
-  const control: Vector2 = {
+  const control: Vector = {
     x: position.x,
     y: position.y,
   };
@@ -53,13 +53,14 @@ export const paintStroke = (
   // Used to optimize drawing
   const strokeIsStraight = colinear(start, end, control);
 
-  brush.bristles.forEach((bristle) => {
+  brush.bristleData.forEach((bristleDatum) => {
     // Determine how long bristle stays on canvas
     const taperAmount =
-      taper * Math.abs(bristle.offset.y / (brush.size.height / 2));
+      taper * Math.abs(bristleDatum.offset.y / (brush.size.height / 2));
+
     const liftAmount =
       lift *
-      ((brush.size.width - (bristle.offset.x + brush.size.width / 2)) /
+      ((brush.size.width - (bristleDatum.offset.x + brush.size.width / 2)) /
         brush.size.width);
     const lifetime = 1 - Math.max(taperAmount, liftAmount);
     const pathLength = lifetime * actualLength;
@@ -72,8 +73,10 @@ export const paintStroke = (
     // Determine shifted color
     const baseColorBrightness = brightness(paintColor);
     const availableBrightness =
-      bristle.shift > 0 ? 255 - baseColorBrightness : baseColorBrightness;
-    const channelOffset = bristle.shift * availableBrightness;
+      bristleDatum.paintShift > 0
+        ? 255 - baseColorBrightness
+        : baseColorBrightness;
+    const channelOffset = bristleDatum.paintShift * availableBrightness;
     const color: Color = {
       red: paintColor.red + channelOffset,
       green: paintColor.green + channelOffset,
@@ -83,7 +86,8 @@ export const paintStroke = (
 
     drawBristle(
       context,
-      bristle,
+      brush.bristleRadius,
+      bristleDatum.offset,
       color,
       start,
       control,

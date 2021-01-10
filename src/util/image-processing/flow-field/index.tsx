@@ -1,5 +1,5 @@
-import FlowField from '../../../lib/structures/flow-field';
-import FlowPoint from '../../../lib/structures/flow-point';
+import DirectionField from '../../../lib/structures/direction-field';
+import DirectedPoint from '../../../lib/structures/directed-point';
 import Size from '../../../lib/structures/size';
 import { strokeDirection } from '../stroke-direction';
 
@@ -23,10 +23,10 @@ export const generateFlowField = (
   const spacing = imageData.width / (arrowsPerLine + 1);
 
   // Create flow points
-  const flowPoints: FlowPoint[] = [];
+  const flowPoints: DirectedPoint[] = [];
   for (let y = spacing / 2; y < size.height; y += spacing) {
     for (let x = spacing / 2; x < size.width; x += spacing) {
-      const flowPoint: FlowPoint = {
+      const flowPoint: DirectedPoint = {
         position: { x, y },
         angle: strokeDirection(
           imageData,
@@ -39,6 +39,6 @@ export const generateFlowField = (
     }
   }
 
-  const flowField: FlowField = { flowPoints, size };
+  const flowField: DirectionField = { flowPoints, size };
   return flowField;
 };

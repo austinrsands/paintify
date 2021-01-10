@@ -1,4 +1,4 @@
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 
 /**
  * Draws an arrow
@@ -12,26 +12,26 @@ import Vector2 from '../../../lib/structures/vector2';
  */
 export const drawArrow = (
   context: CanvasRenderingContext2D,
-  start: Vector2,
+  start: Vector,
   rotation: number,
   length: number,
   bladeLength: number,
   bladeAngle: number = Math.PI / 4,
 ) => {
   // Determine tip of arrow
-  const tip: Vector2 = {
+  const tip: Vector = {
     x: start.x + length * Math.cos(rotation),
     y: start.y - length * Math.sin(rotation),
   };
 
   // Determine end of left arrow wing
-  const left: Vector2 = {
+  const left: Vector = {
     x: tip.x - bladeLength * Math.cos(bladeAngle - rotation),
     y: tip.y - bladeLength * Math.sin(bladeAngle - rotation),
   };
 
   // Determin end of right arrow wing
-  const right: Vector2 = {
+  const right: Vector = {
     x: tip.x - bladeLength * Math.sin(bladeAngle - rotation),
     y: tip.y + bladeLength * Math.cos(bladeAngle - rotation),
   };

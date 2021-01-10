@@ -1,5 +1,5 @@
 import Color from '../../../lib/structures/color';
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 
 /**
  * Returns brightness of a color
@@ -17,7 +17,7 @@ export const brightness = (color: Color) =>
  * @param point the point to check
  * @returns whether the given point is in the image
  */
-export const validPointInImage = (imageData: ImageData, point: Vector2) =>
+export const validPointInImage = (imageData: ImageData, point: Vector) =>
   Number.isInteger(point.x) &&
   Number.isInteger(point.y) &&
   point.x >= 0 &&
@@ -32,7 +32,7 @@ export const validPointInImage = (imageData: ImageData, point: Vector2) =>
  * @param point the point in the image whose pixel color is to be determined
  * @return the color of pixel at the given point in the image
  */
-export const pixelColor = (imageData: ImageData, point: Vector2): Color => {
+export const pixelColor = (imageData: ImageData, point: Vector): Color => {
   // Return solid black if given point is not in the image
   if (!validPointInImage(imageData, point))
     return { red: 0, green: 0, blue: 0, alpha: 1 };
@@ -56,7 +56,7 @@ export const pixelColor = (imageData: ImageData, point: Vector2): Color => {
  */
 export const pixelBrightness = (
   imageData: ImageData,
-  point: Vector2,
+  point: Vector,
 ): number => {
   const color = pixelColor(imageData, point);
   return brightness(color);

@@ -1,5 +1,5 @@
-import FlowField from '../../../lib/structures/flow-field';
-import Vector2 from '../../../lib/structures/vector2';
+import DirectionField from '../../../lib/structures/direction-field';
+import Vector from '../../../lib/structures/vector';
 import { drawArrow } from '../arrow';
 
 /**
@@ -12,12 +12,12 @@ import { drawArrow } from '../arrow';
  */
 export const drawFlowField = (
   context: CanvasRenderingContext2D,
-  flowField: FlowField,
+  flowField: DirectionField,
   arrowLength: number,
   bladeLength: number,
 ) => {
   // Determine difference in size between canvas and flow field
-  const scale: Vector2 = {
+  const scale: Vector = {
     x: context.canvas.width / flowField.size.width,
     y: context.canvas.height / flowField.size.height,
   };

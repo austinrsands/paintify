@@ -1,5 +1,5 @@
 import QuadTree from '../../../lib/structures/quad-tree';
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 import { drawLineSegment } from '../line';
 
 /**
@@ -12,13 +12,13 @@ import { drawLineSegment } from '../line';
 const drawSubdivision = (
   context: CanvasRenderingContext2D,
   quadTree: QuadTree,
-  scale: Vector2,
+  scale: Vector,
 ) => {
   if (
-    quadTree.neighbors.topLeft ||
-    quadTree.neighbors.topRight ||
-    quadTree.neighbors.bottomLeft ||
-    quadTree.neighbors.bottomRight
+    quadTree.subtrees.topLeft ||
+    quadTree.subtrees.topRight ||
+    quadTree.subtrees.bottomLeft ||
+    quadTree.subtrees.bottomRight
   ) {
     // Draw horizontal line.
     const startX = quadTree.position.x;
@@ -41,14 +41,14 @@ const drawSubdivision = (
     );
 
     // Repeat recursively
-    if (quadTree.neighbors.topLeft)
-      drawSubdivision(context, quadTree.neighbors.topLeft, scale);
-    if (quadTree.neighbors.topRight)
-      drawSubdivision(context, quadTree.neighbors.topRight, scale);
-    if (quadTree.neighbors.bottomLeft)
-      drawSubdivision(context, quadTree.neighbors.bottomLeft, scale);
-    if (quadTree.neighbors.bottomRight)
-      drawSubdivision(context, quadTree.neighbors.bottomRight, scale);
+    if (quadTree.subtrees.topLeft)
+      drawSubdivision(context, quadTree.subtrees.topLeft, scale);
+    if (quadTree.subtrees.topRight)
+      drawSubdivision(context, quadTree.subtrees.topRight, scale);
+    if (quadTree.subtrees.bottomLeft)
+      drawSubdivision(context, quadTree.subtrees.bottomLeft, scale);
+    if (quadTree.subtrees.bottomRight)
+      drawSubdivision(context, quadTree.subtrees.bottomRight, scale);
   }
 };
 
@@ -63,7 +63,7 @@ export const drawQuadTree = (
   quadTree: QuadTree,
 ) => {
   // Determine ratio of canvas size to root quadtree size
-  const scale: Vector2 = {
+  const scale: Vector = {
     x: context.canvas.width / quadTree.size.width,
     y: context.canvas.height / quadTree.size.height,
   };

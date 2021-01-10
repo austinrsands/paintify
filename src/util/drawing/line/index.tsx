@@ -1,4 +1,4 @@
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 
 /**
  * Draws a line segment
@@ -9,8 +9,8 @@ import Vector2 from '../../../lib/structures/vector2';
  */
 export const drawLineSegment = (
   context: CanvasRenderingContext2D,
-  start: Vector2,
-  end: Vector2,
+  start: Vector,
+  end: Vector,
 ) => {
   context.beginPath();
   context.moveTo(start.x, start.y);

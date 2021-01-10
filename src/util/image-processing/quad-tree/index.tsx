@@ -1,7 +1,7 @@
 import InclusiveRange from '../../../lib/structures/inclusive-range';
 import QuadTree from '../../../lib/structures/quad-tree';
 import Size from '../../../lib/structures/size';
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 import { standardDeviation } from '../../math';
 import { pixelBrightness } from '../pixels';
 
@@ -17,13 +17,13 @@ import { pixelBrightness } from '../pixels';
 const sampleBrightnesses = (
   imageData: ImageData,
   samplingDensity: number,
-  position: Vector2,
+  position: Vector,
   size: Size,
 ): number[] => {
   const brightnesses: number[] = [];
   const numSamples = samplingDensity * size.width * size.height;
   for (let i = 0; i < numSamples; i++) {
-    const samplePoint: Vector2 = {
+    const samplePoint: Vector = {
       x: Math.floor(position.x + Math.random() * size.width),
       y: Math.floor(position.y + Math.random() * size.height),
     };
@@ -64,10 +64,10 @@ export const generateQuadTree = (
     // Subdivide if diagonal is too big
     if (diagonal > subtreeDiagonalRange.max) {
       tree.subdivide();
-      if (tree.neighbors.topLeft) deepSubdivide(tree.neighbors.topLeft);
-      if (tree.neighbors.topRight) deepSubdivide(tree.neighbors.topRight);
-      if (tree.neighbors.bottomLeft) deepSubdivide(tree.neighbors.bottomLeft);
-      if (tree.neighbors.bottomRight) deepSubdivide(tree.neighbors.bottomRight);
+      if (tree.subtrees.topLeft) deepSubdivide(tree.subtrees.topLeft);
+      if (tree.subtrees.topRight) deepSubdivide(tree.subtrees.topRight);
+      if (tree.subtrees.bottomLeft) deepSubdivide(tree.subtrees.bottomLeft);
+      if (tree.subtrees.bottomRight) deepSubdivide(tree.subtrees.bottomRight);
     }
 
     // Get samples
@@ -81,10 +81,10 @@ export const generateQuadTree = (
     // Continue subdividing if standard deviation of sampled brightness is too large
     if (standardDeviation(samples) > subdivisionThreshold) {
       tree.subdivide();
-      if (tree.neighbors.topLeft) deepSubdivide(tree.neighbors.topLeft);
-      if (tree.neighbors.topRight) deepSubdivide(tree.neighbors.topRight);
-      if (tree.neighbors.bottomLeft) deepSubdivide(tree.neighbors.bottomLeft);
-      if (tree.neighbors.bottomRight) deepSubdivide(tree.neighbors.bottomRight);
+      if (tree.subtrees.topLeft) deepSubdivide(tree.subtrees.topLeft);
+      if (tree.subtrees.topRight) deepSubdivide(tree.subtrees.topRight);
+      if (tree.subtrees.bottomLeft) deepSubdivide(tree.subtrees.bottomLeft);
+      if (tree.subtrees.bottomRight) deepSubdivide(tree.subtrees.bottomRight);
     }
   };
   deepSubdivide(quadTree);

@@ -1,53 +1,78 @@
 import Size from '../size';
-import Bristle from '../bristle';
-import Vector2 from '../vector2';
+import Vector from '../vector';
 
+/**
+ * Holds information about a bristle
+ */
+interface BristleDatum {
+  offset: Vector;
+  paintShift: number;
+}
+
+/**
+ * Represents a paint brush
+ */
 class Brush {
   readonly size: Size;
-  readonly density: number;
   readonly texture: number;
-  readonly bristles: Bristle[] = [];
+  readonly bristleDensity: number;
+  readonly bristleRadius: number;
+  readonly bristleData: BristleDatum[] = [];
 
+  /**
+   * Contructs a brush
+   *
+   * @param size the dimensions of the brush
+   * @param texture the texture of the brush
+   * @param bristleDensity the density of the bristles
+   * @param bristleRadius the radius of the bristles
+   * @returns a new brush instance
+   */
   constructor(
     size: Size,
-    density: number = 0.5,
     texture: number = 0.5,
+    bristleDensity: number = 0.5,
     bristleRadius: number = 0.5,
   ) {
     this.size = size;
-    this.density = density;
+    this.bristleDensity = bristleDensity;
     this.texture = texture;
-    this.generateBristles(bristleRadius);
+    this.bristleRadius = bristleRadius;
+    this.generateBristleData();
   }
 
-  private generateBristles(radius: number) {
+  /**
+   * Determines the number of bristles in the brush as well as the offset and paint shift for each bristle
+   */
+  private generateBristleData() {
     const brushArea = (Math.PI * this.size.width * this.size.height) / 4;
-    const bristleArea = Math.PI * radius ** 2;
-    const numBristles = Math.round((this.density * brushArea) / bristleArea);
+    const bristleArea = Math.PI * this.bristleRadius ** 2;
+    const numBristles = Math.round(
+      (this.bristleDensity * brushArea) / bristleArea,
+    );
     for (let i = 0; i < numBristles; i++) {
       // Determine random point in ellipse
       const phi = Math.random() * Math.PI * 2;
       const rho = Math.random();
-      const offset: Vector2 = {
+      const offset: Vector = {
         x: Math.sqrt(rho) * Math.cos(phi) * (this.size.width / 2),
         y: Math.sqrt(rho) * Math.sin(phi) * (this.size.height / 2),
       };
 
-      // Determine if bristle should become brighter or dimmer
-      const shift = Math.random() > 0.5 ? this.texture : -this.texture;
+      // Determine whether the bristle should brighten or dim the paint
+      const paintShift = Math.random() > 0.5 ? this.texture : -this.texture;
 
-      // Create bristle
-      const bristle: Bristle = {
+      // Save bristle datum
+      const bristleDatum: BristleDatum = {
         offset,
-        radius,
-        shift,
+        paintShift,
       };
-      this.bristles.push(bristle);
+      this.bristleData.push(bristleDatum);
     }
 
     // Sort bristles by x offset so they are drawn in correct order
-    this.bristles.sort(
-      (a: Bristle, b: Bristle) =>
+    this.bristleData.sort(
+      (a, b) =>
         -a.offset.x + this.size.width / 2 - (-b.offset.x + this.size.width / 2),
     );
   }

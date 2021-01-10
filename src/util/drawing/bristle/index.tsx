@@ -1,13 +1,13 @@
-import Bristle from '../../../lib/structures/bristle';
 import Color from '../../../lib/structures/color';
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 import { bezierPoint, bezierTangent } from '../../math';
 
 /**
  * Draws a paint brush bristle
  *
  * @param context the 2D graphics context to draw on
- * @param bristle the bristle to draw
+ * @param radius the radius of the bristle
+ * @param offset the difference between the position of the bristle and the brush
  * @param color the color to draw the bristle
  * @param start the starting position of the bristle's path
  * @param control the control point of the bristle's path
@@ -17,11 +17,12 @@ import { bezierPoint, bezierTangent } from '../../math';
  */
 export const drawBristle = (
   context: CanvasRenderingContext2D,
-  bristle: Bristle,
+  radius: number,
+  offset: Vector,
   color: Color,
-  start: Vector2,
-  control: Vector2,
-  end: Vector2,
+  start: Vector,
+  control: Vector,
+  end: Vector,
   lifetime: number,
   numSegments: number,
 ) => {
@@ -31,30 +32,30 @@ export const drawBristle = (
 
   // Configure context
   context.strokeStyle = `rgba(${color.red}, ${color.green}, ${color.blue}, ${color.alpha})`;
-  context.lineWidth = bristle.radius * 2;
+  context.lineWidth = radius * 2;
   context.lineCap = 'round';
 
   context.beginPath();
   for (let time = 0; time <= lifetime; time += timestep) {
-    const currentBrushPosition: Vector2 = {
+    const currentBrushPosition: Vector = {
       x: bezierPoint(start.x, control.x, end.x, time),
       y: bezierPoint(start.y, control.y, end.y, time),
     };
-    const currentTangent: Vector2 = {
+    const currentTangent: Vector = {
       x: bezierTangent(start.x, control.x, end.x, time),
       y: bezierTangent(start.y, control.y, end.y, time),
     };
     const currentRotation = Math.atan2(currentTangent.y, currentTangent.x);
 
-    const currentBristlePosition: Vector2 = {
+    const currentBristlePosition: Vector = {
       x:
         currentBrushPosition.x +
-        Math.cos(currentRotation) * bristle.offset.x -
-        Math.sin(currentRotation) * bristle.offset.y,
+        Math.cos(currentRotation) * offset.x -
+        Math.sin(currentRotation) * offset.y,
       y:
         currentBrushPosition.y +
-        Math.sin(currentRotation) * bristle.offset.x +
-        Math.cos(currentRotation) * bristle.offset.y,
+        Math.sin(currentRotation) * offset.x +
+        Math.cos(currentRotation) * offset.y,
     };
 
     if (time !== 0) {

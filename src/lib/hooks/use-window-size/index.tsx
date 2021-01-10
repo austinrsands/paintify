@@ -1,15 +1,14 @@
 import { useLayoutEffect, useState } from 'react';
 import debounce from 'debounce';
 
-interface Size {
-  width: number;
-  height: number;
-}
-
-// Hook that returns current window size
+/**
+ * A hook for getting the current window size
+ *
+ * @param debounceInterval the minimum time between updates in milliseconds
+ */
 const useWindowSize = (debounceInterval: number = 200) => {
   // Store initial window size
-  const [size, setSize] = useState<Size>({
+  const [size, setSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });

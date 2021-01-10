@@ -1,4 +1,4 @@
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 
 /**
  * Draws a filled ellipse
@@ -10,8 +10,8 @@ import Vector2 from '../../../lib/structures/vector2';
  */
 export const fillEllipse = (
   context: CanvasRenderingContext2D,
-  position: Vector2,
-  radii: Vector2,
+  position: Vector,
+  radii: Vector,
   rotation: number = 0,
 ) => {
   context.beginPath();

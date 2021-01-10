@@ -1,24 +1,40 @@
-import Vector2 from '../vector2';
+import Vector from '../vector';
 import Size from '../size';
 
-interface Neighbors<T> {
-  topLeft?: T;
-  topRight?: T;
-  bottomLeft?: T;
-  bottomRight?: T;
+/**
+ * Represents the subtrees of a quad tree
+ */
+interface Subtrees {
+  topLeft?: QuadTree;
+  topRight?: QuadTree;
+  bottomLeft?: QuadTree;
+  bottomRight?: QuadTree;
 }
 
+/**
+ * Represents a quad tree
+ */
 class QuadTree {
-  readonly position: Vector2;
+  readonly position: Vector;
   readonly size: Size;
-  readonly neighbors: Neighbors<QuadTree>;
+  readonly subtrees: Subtrees;
 
-  constructor(position: Vector2, size: Size) {
+  /**
+   * Constructs a quad tree
+   *
+   * @param position the top left point of the quad tree
+   * @param size the dimensions of the quad tree
+   * @returns a new quad tree instance
+   */
+  constructor(position: Vector, size: Size) {
     this.position = position;
     this.size = size;
-    this.neighbors = {};
+    this.subtrees = {};
   }
 
+  /**
+   * Divides a quad tree into its four quadrants
+   */
   public subdivide() {
     const halfSize: Size = {
       width: this.size.width / 2,
@@ -26,29 +42,34 @@ class QuadTree {
     };
 
     // Determing neighboring origins
-    const topLeftPoint: Vector2 = this.position;
-    const topMiddlePoint: Vector2 = {
+    const topLeftPoint: Vector = this.position;
+    const topMiddlePoint: Vector = {
       x: this.position.x + halfSize.width,
       y: this.position.y,
     };
-    const middleLeftPoint: Vector2 = {
+    const middleLeftPoint: Vector = {
       x: this.position.x,
       y: this.position.y + halfSize.height,
     };
-    const centerPoint: Vector2 = {
+    const centerPoint: Vector = {
       x: this.position.x + halfSize.width,
       y: this.position.y + halfSize.height,
     };
 
     // Create neighboring trees
-    this.neighbors.topLeft = new QuadTree(topLeftPoint, halfSize);
-    this.neighbors.topRight = new QuadTree(topMiddlePoint, halfSize);
-    this.neighbors.bottomLeft = new QuadTree(middleLeftPoint, halfSize);
-    this.neighbors.bottomRight = new QuadTree(centerPoint, halfSize);
+    this.subtrees.topLeft = new QuadTree(topLeftPoint, halfSize);
+    this.subtrees.topRight = new QuadTree(topMiddlePoint, halfSize);
+    this.subtrees.bottomLeft = new QuadTree(middleLeftPoint, halfSize);
+    this.subtrees.bottomRight = new QuadTree(centerPoint, halfSize);
   }
 
-  // Returns true if this tree contains the given point, false otherwise
-  public contains(point: Vector2): boolean {
+  /**
+   * Returns whether this tree contains a point
+   *
+   * @param point the point to look for
+   * @returns whether this tree contains the given point
+   */
+  public contains(point: Vector): boolean {
     return (
       point.x >= this.position.x &&
       point.x <= this.position.x + this.size.width &&
@@ -57,27 +78,26 @@ class QuadTree {
     );
   }
 
-  // Returns the smallest tree containing the given point
-  public smallestBoundingTree(point: Vector2): QuadTree | undefined {
-    if (this.neighbors.topLeft?.contains(point))
-      return this.neighbors.topLeft.smallestBoundingTree(point);
+  /**
+   * Returns this tree's smallest subtree containting a point
+   *
+   * @param point the point to look for
+   * @returns this tree's smallest subtree containting the given point
+   */
+  public smallestBoundingSubtree(point: Vector): QuadTree | undefined {
+    if (this.subtrees.topLeft?.contains(point))
+      return this.subtrees.topLeft.smallestBoundingSubtree(point);
 
-    if (this.neighbors.topRight?.contains(point))
-      return this.neighbors.topRight.smallestBoundingTree(point);
+    if (this.subtrees.topRight?.contains(point))
+      return this.subtrees.topRight.smallestBoundingSubtree(point);
 
-    if (this.neighbors.bottomLeft?.contains(point))
-      return this.neighbors.bottomLeft.smallestBoundingTree(point);
+    if (this.subtrees.bottomLeft?.contains(point))
+      return this.subtrees.bottomLeft.smallestBoundingSubtree(point);
 
-    if (this.neighbors.bottomRight?.contains(point))
-      return this.neighbors.bottomRight.smallestBoundingTree(point);
+    if (this.subtrees.bottomRight?.contains(point))
+      return this.subtrees.bottomRight.smallestBoundingSubtree(point);
 
     return this.contains(point) ? this : undefined;
-  }
-
-  // Returns the size of the smallest tree containing the given point
-  public smallestBoundingSize(point: Vector2): Size | undefined {
-    const boundingTree = this.smallestBoundingTree(point);
-    return boundingTree ? boundingTree.size : undefined;
   }
 }
 

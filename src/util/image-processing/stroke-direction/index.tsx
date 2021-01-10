@@ -1,5 +1,5 @@
 import SimplexNoise from 'simplex-noise';
-import Vector2 from '../../../lib/structures/vector2';
+import Vector from '../../../lib/structures/vector';
 import { convolveWithGrayscale } from '../convolution';
 import { SOBEL_X, SOBEL_Y } from '../kernels';
 
@@ -14,12 +14,12 @@ import { SOBEL_X, SOBEL_Y } from '../kernels';
  */
 export const strokeDirection = (
   imageData: ImageData,
-  point: Vector2,
+  point: Vector,
   noiseScale: number,
   noiseSeed?: string,
 ) => {
   // Take sobel derivatives
-  const sobelDerivative: Vector2 = {
+  const sobelDerivative: Vector = {
     x: convolveWithGrayscale(imageData, SOBEL_X, point),
     y: convolveWithGrayscale(imageData, SOBEL_Y, point),
   };

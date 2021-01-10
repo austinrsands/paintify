@@ -1,5 +1,5 @@
 import InclusiveRange from '../../lib/structures/inclusive-range';
-import Vector2 from '../../lib/structures/vector2';
+import Vector from '../../lib/structures/vector';
 
 /**
  * Returns the interpolated value of a point on a bezier curve
@@ -53,7 +53,7 @@ export const almostEqual = (a: number, b: number, epsilon: number = 0.0001) =>
  * @param c the third point
  * @returns whether a, b, and c fall on the same line
  */
-export const colinear = (a: Vector2, b: Vector2, c: Vector2) =>
+export const colinear = (a: Vector, b: Vector, c: Vector) =>
   almostEqual(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y), 0);
 
 /**

@@ -1,3 +1,6 @@
+/**
+ * Represents an RGBA color
+ */
 interface Color {
   red: number;
   green: number;
