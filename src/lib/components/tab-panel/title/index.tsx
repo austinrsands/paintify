@@ -9,9 +9,6 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * Represents all properties of this component
- */
 export type TabPanelTitleProps = TypographyProps;
 
 const TabPanelTitle: React.FC<TabPanelTitleProps> = ({

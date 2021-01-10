@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * Represents all properties of this component
- */
 export type TabPanelPreviewProps = CanvasProps;
 
 const TabPanelPreview: React.FC<TabPanelPreviewProps> = ({

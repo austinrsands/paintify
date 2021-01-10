@@ -9,17 +9,11 @@ const useStyles = makeStyles({
   },
 });
 
-/**
- * Represents properties unique to this component
- */
 interface Props {
   value?: any;
   index: number;
 }
 
-/**
- * Represents all properties of this component
- */
 export type TabPanelProps = Props & PaperProps;
 
 const TabPanel: React.FC<TabPanelProps> = ({
