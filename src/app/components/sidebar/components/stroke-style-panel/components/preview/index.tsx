@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import Size from '../../../../../../../lib/structures/size';
 import StyleProps from '../../../../../../../lib/structures/style-props';
@@ -13,7 +13,7 @@ const BRUSH = new Brush({ width: 30, height: 60 }, 0.2, 0.7);
 
 const BrushStrokePreview: React.FC<StyleProps> = (props) => {
   // Draw brush stroke
-  const setup = (context: CanvasRenderingContext2D) => {
+  const setup = useCallback((context: CanvasRenderingContext2D) => {
     const position: Vector = {
       x: context.canvas.width / 2,
       y: context.canvas.height / 2,
@@ -37,7 +37,7 @@ const BrushStrokePreview: React.FC<StyleProps> = (props) => {
       lift,
       segmentLength,
     );
-  };
+  }, []);
 
   return (
     <TabPanelPreview

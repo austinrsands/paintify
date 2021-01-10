@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
 import StyleProps from '../../../../../../../lib/structures/style-props';
@@ -11,14 +11,17 @@ const QuadTreePreview: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
 
   // Draw quad tree
-  const setup = (context: CanvasRenderingContext2D) => {
-    if (state.quadTree) {
-      context.fillStyle = 'white';
-      fillBackground(context);
-      context.lineWidth = 1;
-      drawQuadTree(context, state.quadTree);
-    }
-  };
+  const setup = useCallback(
+    (context: CanvasRenderingContext2D) => {
+      if (state.quadTree) {
+        context.fillStyle = 'white';
+        fillBackground(context);
+        context.lineWidth = 1;
+        drawQuadTree(context, state.quadTree);
+      }
+    },
+    [state.quadTree],
+  );
 
   return state.imageData ? (
     <TabPanelPreview

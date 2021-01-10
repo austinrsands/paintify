@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import ImageRounded from '@material-ui/icons/ImageRounded';
 import BrushRounded from '@material-ui/icons/BrushRounded';
 import CompareRounded from '@material-ui/icons/CompareRounded';
-import WavesRounded from '@material-ui/icons/WavesRounded';
+import TrendingFlatRoundedIcon from '@material-ui/icons/TrendingFlatRounded';
 import GridOnRounded from '@material-ui/icons/GridOnRounded';
 import grey from '@material-ui/core/colors/grey';
 import ImageMaskingPanel from './components/image-masking-panel';
@@ -76,7 +76,7 @@ const Sidebar: React.FC<BoxProps> = ({ className, ...rest }) => {
           <Tab
             className={classes.tab}
             classes={{ disabled: classes.disabledTab }}
-            icon={<WavesRounded />}
+            icon={<TrendingFlatRoundedIcon />}
             disableRipple
             disabled={!state.imageData}
           />

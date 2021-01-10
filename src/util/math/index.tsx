@@ -116,6 +116,16 @@ export const isEven = (num: number) => num % 2 === 0;
 export const isOdd = (num: number) => !isEven(num);
 
 /**
+ * Returns whether a number is in an inclusive range
+ *
+ * @param num a number
+ * @param range an inclusive range
+ * @returns whether the given number falls in the given range
+ */
+export const isInRange = (num: number, range: InclusiveRange) =>
+  num >= range.min && num <= range.max;
+
+/**
  * Returns a random alphanumeric string
  *
  * @returns a random seed

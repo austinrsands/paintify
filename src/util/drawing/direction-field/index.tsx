@@ -3,34 +3,34 @@ import Vector from '../../../lib/structures/vector';
 import { drawArrow } from '../arrow';
 
 /**
- * Draws a flow field representation out of arrows
+ * Draws a direction field representation out of arrows
  *
  * @param context the 2D graphics context to draw on
- * @param flowField the flow field to draw
+ * @param directionField the direction field to draw
  * @param arrowLength the length of the arrows
  * @param bladeLength the length of the arrows' blades
  */
-export const drawFlowField = (
+export const drawDirectionField = (
   context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  flowField: DirectionField,
+  directionField: DirectionField,
   arrowLength: number,
   bladeLength: number,
 ) => {
-  // Determine difference in size between canvas and flow field
+  // Determine difference in size between canvas and direction field
   const scale: Vector = {
-    x: context.canvas.width / flowField.size.width,
-    y: context.canvas.height / flowField.size.height,
+    x: context.canvas.width / directionField.size.width,
+    y: context.canvas.height / directionField.size.height,
   };
 
-  // Draw the flow points
-  flowField.flowPoints.forEach((flowPoint) =>
+  // Draw the directed points
+  directionField.directedPoints.forEach((directedPoint) =>
     drawArrow(
       context,
       {
-        x: flowPoint.position.x * scale.x,
-        y: flowPoint.position.y * scale.y,
+        x: directedPoint.position.x * scale.x,
+        y: directedPoint.position.y * scale.y,
       },
-      flowPoint.angle,
+      directedPoint.angle,
       arrowLength,
       bladeLength,
     ),

@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core';
 import TabPanel, {
   TabPanelProps,
 } from '../../../../../lib/components/tab-panel';
@@ -9,15 +8,10 @@ import { useAppContext } from '../../../../context';
 import QuadTreePreview from './components/preview';
 import { generateQuadTree } from '../../../../../util/image-processing/quad-tree';
 
-const useStyles = makeStyles((theme) => ({
-  content: {},
-}));
-
 const SAMPLING_DENSITY = 0.001;
 const SUBDIVISION_THRESHOLD = 10;
 
 const StrokeSizePanel: React.FC<TabPanelProps> = (props) => {
-  const classes = useStyles();
   const { state, dispatch } = useAppContext();
 
   // Generate and store quad tree
@@ -36,7 +30,7 @@ const StrokeSizePanel: React.FC<TabPanelProps> = (props) => {
   return (
     <TabPanel {...props}>
       <TabPanelTitle>Stroke Size</TabPanelTitle>
-      <TabPanelContent className={classes.content}>
+      <TabPanelContent>
         <QuadTreePreview />
       </TabPanelContent>
     </TabPanel>

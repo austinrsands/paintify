@@ -43,7 +43,7 @@ export const pixelColor = (imageData: ImageData, point: Vector): Color => {
     red: imageData.data[redIndex],
     green: imageData.data[redIndex + 1],
     blue: imageData.data[redIndex + 2],
-    alpha: 1,
+    alpha: imageData.data[redIndex + 3],
   };
 };
 

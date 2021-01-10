@@ -5,7 +5,7 @@ import Size from '../size';
  * Represents a field of directed points
  */
 interface DirectionField {
-  flowPoints: DirectedPoint[];
+  directedPoints: DirectedPoint[];
   size: Size;
 }
 
