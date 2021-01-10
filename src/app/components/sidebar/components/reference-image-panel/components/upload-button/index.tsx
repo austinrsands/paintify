@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
+import CloudUploadRoundedIcon from '@material-ui/icons/CloudUploadRounded';
 import StyleProps from '../../../../../../../lib/structures/style-props/index';
 import { useAppContext } from '../../../../../../context';
 
@@ -17,7 +18,7 @@ const getData = (bitmap: ImageBitmap): ImageData | null => {
 };
 
 const ReferenceImageUploadButton: React.FC<StyleProps> = (props) => {
-  const { state, dispatch } = useAppContext();
+  const { dispatch } = useAppContext();
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     // Store file
@@ -39,7 +40,7 @@ const ReferenceImageUploadButton: React.FC<StyleProps> = (props) => {
 
   return (
     <Button color="primary" variant="contained" component="label" {...props}>
-      {state.imageData ? 'Change' : 'Upload'}
+      <CloudUploadRoundedIcon />
       <input
         type="file"
         accept="image/jpeg, image/png"

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { Box, makeStyles } from '@material-ui/core';
 import TabPanel, {
   TabPanelProps,
 } from '../../../../../lib/components/tab-panel';
@@ -11,14 +11,12 @@ import TabPanelTitle from '../../../../../lib/components/tab-panel/title';
 import TabPanelContent from '../../../../../lib/components/tab-panel/content';
 
 const useStyles = makeStyles((theme) => ({
-  content: {},
-  message: {
-    margin: '4rem 0 5rem 0',
-    alignSelf: 'center',
-    textAlign: 'center',
+  spacer: {
+    marginTop: '4rem',
   },
-  button: {
-    minWidth: '8rem',
+  message: {
+    marginTop: '1.5rem',
+    alignSelf: 'center',
   },
 }));
 
@@ -28,13 +26,16 @@ const ReferenceImagePanel: React.FC<TabPanelProps> = (props) => {
   return (
     <TabPanel {...props}>
       <TabPanelTitle>Reference Image</TabPanelTitle>
-      <TabPanelContent className={classes.content}>
+      <TabPanelContent>
         {state.imageData ? (
           <ReferenceImagePreview />
         ) : (
+          <Box className={classes.spacer} />
+        )}
+        <ReferenceImageUploadButton />
+        {!state.imageData && (
           <ReferenceImageUploadMessage className={classes.message} />
         )}
-        <ReferenceImageUploadButton className={classes.button} />
       </TabPanelContent>
     </TabPanel>
   );
