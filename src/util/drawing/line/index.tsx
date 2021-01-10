@@ -8,7 +8,7 @@ import Vector from '../../../lib/structures/vector';
  * @param end the ending point of the line segment
  */
 export const drawLineSegment = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   start: Vector,
   end: Vector,
 ) => {

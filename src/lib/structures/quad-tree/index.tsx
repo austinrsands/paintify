@@ -1,5 +1,6 @@
 import Vector from '../vector';
 import Size from '../size';
+import Rect from '../rect';
 
 /**
  * Represents the subtrees of a quad tree
@@ -15,8 +16,7 @@ interface Subtrees {
  * Represents a quad tree
  */
 class QuadTree {
-  readonly position: Vector;
-  readonly size: Size;
+  readonly rect: Rect;
   readonly subtrees: Subtrees;
 
   /**
@@ -27,8 +27,7 @@ class QuadTree {
    * @returns a new quad tree instance
    */
   constructor(position: Vector, size: Size) {
-    this.position = position;
-    this.size = size;
+    this.rect = { position, size };
     this.subtrees = {};
   }
 
@@ -37,23 +36,23 @@ class QuadTree {
    */
   public subdivide() {
     const halfSize: Size = {
-      width: this.size.width / 2,
-      height: this.size.height / 2,
+      width: this.rect.size.width / 2,
+      height: this.rect.size.height / 2,
     };
 
     // Determing neighboring origins
-    const topLeftPoint: Vector = this.position;
+    const topLeftPoint: Vector = this.rect.position;
     const topMiddlePoint: Vector = {
-      x: this.position.x + halfSize.width,
-      y: this.position.y,
+      x: this.rect.position.x + halfSize.width,
+      y: this.rect.position.y,
     };
     const middleLeftPoint: Vector = {
-      x: this.position.x,
-      y: this.position.y + halfSize.height,
+      x: this.rect.position.x,
+      y: this.rect.position.y + halfSize.height,
     };
     const centerPoint: Vector = {
-      x: this.position.x + halfSize.width,
-      y: this.position.y + halfSize.height,
+      x: this.rect.position.x + halfSize.width,
+      y: this.rect.position.y + halfSize.height,
     };
 
     // Create neighboring trees
@@ -71,10 +70,10 @@ class QuadTree {
    */
   public contains(point: Vector): boolean {
     return (
-      point.x >= this.position.x &&
-      point.x <= this.position.x + this.size.width &&
-      point.y >= this.position.y &&
-      point.y <= this.position.y + this.size.height
+      point.x >= this.rect.position.x &&
+      point.x <= this.rect.position.x + this.rect.size.width &&
+      point.y >= this.rect.position.y &&
+      point.y <= this.rect.position.y + this.rect.size.height
     );
   }
 

@@ -10,7 +10,7 @@ import { drawLineSegment } from '../line';
  * @param scale the ratio of the canvas' size to the quad tree's size
  */
 const drawSubdivision = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   quadTree: QuadTree,
   scale: Vector,
 ) => {
@@ -21,9 +21,9 @@ const drawSubdivision = (
     quadTree.subtrees.bottomRight
   ) {
     // Draw horizontal line.
-    const startX = quadTree.position.x;
-    const endX = quadTree.position.x + quadTree.size.width;
-    const y = quadTree.position.y + quadTree.size.height / 2;
+    const startX = quadTree.rect.position.x;
+    const endX = quadTree.rect.position.x + quadTree.rect.size.width;
+    const y = quadTree.rect.position.y + quadTree.rect.size.height / 2;
     drawLineSegment(
       context,
       { x: startX * scale.x, y: y * scale.y },
@@ -31,9 +31,9 @@ const drawSubdivision = (
     );
 
     // Draw vertical line.
-    const startY = quadTree.position.y;
-    const endY = quadTree.position.y + quadTree.size.height;
-    const x = quadTree.position.x + quadTree.size.width / 2;
+    const startY = quadTree.rect.position.y;
+    const endY = quadTree.rect.position.y + quadTree.rect.size.height;
+    const x = quadTree.rect.position.x + quadTree.rect.size.width / 2;
     drawLineSegment(
       context,
       { x: x * scale.x, y: startY * scale.y },
@@ -64,8 +64,8 @@ export const drawQuadTree = (
 ) => {
   // Determine ratio of canvas size to root quadtree size
   const scale: Vector = {
-    x: context.canvas.width / quadTree.size.width,
-    y: context.canvas.height / quadTree.size.height,
+    x: context.canvas.width / quadTree.rect.size.width,
+    y: context.canvas.height / quadTree.rect.size.height,
   };
   drawSubdivision(context, quadTree, scale);
 };

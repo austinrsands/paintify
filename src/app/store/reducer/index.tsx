@@ -19,6 +19,7 @@ const AppReducer = (state: AppState, action: AppAction) => {
       return {
         ...state,
         imageData: action.data,
+        isPainting: false,
       };
     }
     case 'update-quad-tree': {

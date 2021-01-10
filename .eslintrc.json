@@ -1,7 +1,6 @@
 {
   "env": {
-    "browser": true,
-    "es2021": true
+    "browser": true
   },
   "extends": ["plugin:react/recommended", "airbnb", "prettier"],
   "parser": "@typescript-eslint/parser",
@@ -14,6 +13,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "react-hooks", "jsx-a11y"],
   "rules": {
+    "no-undef": "off",
     "quotes": ["error", "single"],
     "function-paren-newline": 0,
     "no-param-reassign": 0,

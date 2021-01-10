@@ -11,7 +11,7 @@ import Vector from '../../../lib/structures/vector';
  * @param bladeAngle the angle of the arrow's blades relative to the shaft
  */
 export const drawArrow = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   start: Vector,
   rotation: number,
   length: number,

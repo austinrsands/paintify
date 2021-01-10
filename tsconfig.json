@@ -3,7 +3,7 @@
     /* Basic Options */
     "target": "es5",
     "module": "esnext",
-    "lib": ["ES2015", "ESNext", "DOM"],
+    "lib": ["ES2015", "DOM"],
     "jsx": "react",
 
     /* Strict Type-Checking Options */

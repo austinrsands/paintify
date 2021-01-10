@@ -19,7 +19,7 @@ import { drawBristle } from '../bristle';
  * @param segmentLength the length of the line segments that make up each curved bristle
  */
 export const paintStroke = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   brush: Brush,
   position: Vector,
   rotation: number,

@@ -16,7 +16,7 @@ import { bezierPoint, bezierTangent } from '../../math';
  * @param numSegments the number of segments used to draw the bristle
  */
 export const drawBristle = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   radius: number,
   offset: Vector,
   color: Color,

@@ -56,7 +56,7 @@ export const generateQuadTree = (
 
   // Recursively subdivides the given tree as long as many times as necessary
   const deepSubdivide = (tree: QuadTree) => {
-    const diagonal = Math.hypot(tree.size.width, tree.size.height);
+    const diagonal = Math.hypot(tree.rect.size.width, tree.rect.size.height);
 
     // Stop subdividing if next subdivision would make diagonal too small
     if (diagonal / 2 < subtreeDiagonalRange.min) return;
@@ -74,8 +74,8 @@ export const generateQuadTree = (
     const samples = sampleBrightnesses(
       imageData,
       samplingDensity,
-      tree.position,
-      tree.size,
+      tree.rect.position,
+      tree.rect.size,
     );
 
     // Continue subdividing if standard deviation of sampled brightness is too large

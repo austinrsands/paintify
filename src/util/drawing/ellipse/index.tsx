@@ -9,7 +9,7 @@ import Vector from '../../../lib/structures/vector';
  * @param rotation the rotation of the ellipse
  */
 export const fillEllipse = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   position: Vector,
   radii: Vector,
   rotation: number = 0,

@@ -11,7 +11,7 @@ import { drawArrow } from '../arrow';
  * @param bladeLength the length of the arrows' blades
  */
 export const drawFlowField = (
-  context: CanvasRenderingContext2D,
+  context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   flowField: DirectionField,
   arrowLength: number,
   bladeLength: number,
