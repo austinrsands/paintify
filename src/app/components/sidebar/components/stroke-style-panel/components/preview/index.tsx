@@ -5,7 +5,6 @@ import StyleProps from '../../../../../../../lib/structures/style-props';
 import Brush from '../../../../../../../lib/structures/brush';
 import Vector2 from '../../../../../../../lib/structures/vector2';
 import Color from '../../../../../../../lib/structures/color';
-import StrokeOptions from '../../../../../../../lib/structures/stroke-options';
 import { fillBackground } from '../../../../../../../util/drawing/background';
 import { paintStroke } from '../../../../../../../util/drawing/stroke';
 
@@ -19,21 +18,25 @@ const BrushStrokePreview: React.FC<StyleProps> = (props) => {
       x: context.canvas.width / 2,
       y: context.canvas.height / 2,
     };
+    const rotation = 0;
     const baseColor: Color = { red: 50, green: 168, blue: 82, alpha: 0.3 };
     const length = 250;
     const taper = 0.1;
     const lift = 1;
     const segmentLength = 25;
-    const options: StrokeOptions = {
+    context.fillStyle = 'white';
+    fillBackground(context);
+    paintStroke(
+      context,
+      BRUSH,
+      position,
+      rotation,
       baseColor,
       length,
       taper,
       lift,
       segmentLength,
-    };
-    context.fillStyle = 'white';
-    fillBackground(context);
-    paintStroke(context, BRUSH, options, position);
+    );
   };
 
   return (

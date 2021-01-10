@@ -37,7 +37,7 @@ const sampleBrightnesses = (
  * Returns a quad tree that has been subdivided in areas of detail in an image
  *
  * @param imageData the image used to generate the quad tree
- * @param samplingDensity the density at which to sample points
+ * @param samplingDensity the density in the range (0, 1] at which to sample points
  * @param subdivisionThreshold the standard deviation of brightness values at which to start subdividing
  * @param subtreeDiagonalRange the range of allowed quad tree diagonal lengths
  * @returns the generated quad tree

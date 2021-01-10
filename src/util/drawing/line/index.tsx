@@ -1,6 +1,13 @@
 import Vector2 from '../../../lib/structures/vector2';
 
-export const drawLine = (
+/**
+ * Draws a line segment
+ *
+ * @param context the 2D graphics context to draw on
+ * @param start the starting point of the line segment
+ * @param end the ending point of the line segment
+ */
+export const drawLineSegment = (
   context: CanvasRenderingContext2D,
   start: Vector2,
   end: Vector2,

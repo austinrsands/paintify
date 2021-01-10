@@ -2,6 +2,14 @@ import FlowField from '../../../lib/structures/flow-field';
 import Vector2 from '../../../lib/structures/vector2';
 import { drawArrow } from '../arrow';
 
+/**
+ * Draws a flow field representation out of arrows
+ *
+ * @param context the 2D graphics context to draw on
+ * @param flowField the flow field to draw
+ * @param arrowLength the length of the arrows
+ * @param bladeLength the length of the arrows' blades
+ */
 export const drawFlowField = (
   context: CanvasRenderingContext2D,
   flowField: FlowField,

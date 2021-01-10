@@ -3,6 +3,18 @@ import Color from '../../../lib/structures/color';
 import Vector2 from '../../../lib/structures/vector2';
 import { bezierPoint, bezierTangent } from '../../math';
 
+/**
+ * Draws a paint brush bristle
+ *
+ * @param context the 2D graphics context to draw on
+ * @param bristle the bristle to draw
+ * @param color the color to draw the bristle
+ * @param start the starting position of the bristle's path
+ * @param control the control point of the bristle's path
+ * @param end the ending point of the bristle's path
+ * @param lifetime the lifetime of the bristle's path in the range (0, 1]
+ * @param numSegments the number of segments used to draw the bristle
+ */
 export const drawBristle = (
   context: CanvasRenderingContext2D,
   bristle: Bristle,
@@ -11,9 +23,10 @@ export const drawBristle = (
   control: Vector2,
   end: Vector2,
   lifetime: number,
-  timestep: number,
+  numSegments: number,
 ) => {
   // Prevent infinite loops
+  const timestep = lifetime / numSegments;
   if (timestep <= 0 || lifetime <= 0) return;
 
   // Configure context

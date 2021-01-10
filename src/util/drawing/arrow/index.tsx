@@ -1,6 +1,15 @@
 import Vector2 from '../../../lib/structures/vector2';
 
-// Draw an arrow from the given starting position at the given angle with the given properties
+/**
+ * Draws an arrow
+ *
+ * @param context the 2D graphics context to draw on
+ * @param start the starting position of the arrow
+ * @param rotation the rotation of the arrow
+ * @param length the length of the arrow
+ * @param bladeLength the length of the arrow's blades
+ * @param bladeAngle the angle of the arrow's blades relative to the shaft
+ */
 export const drawArrow = (
   context: CanvasRenderingContext2D,
   start: Vector2,
