@@ -3,6 +3,9 @@ import React, { useRef, useState, useEffect } from 'react';
 // const DEVICE_PIXEL_RATIO = window.devicePixelRatio || 1;
 const DEFAULT_TARGET_FRAMERATE = 120;
 
+/**
+ * Represents properties unique to this component
+ */
 interface Props {
   targetFramerate?: number;
   noLoop?: boolean;
@@ -12,12 +15,18 @@ interface Props {
   onPostdraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
 }
 
+/**
+ * Represents all properties of this component
+ */
 export type CanvasProps = Props &
   React.DetailedHTMLProps<
     React.CanvasHTMLAttributes<HTMLCanvasElement>,
     HTMLCanvasElement
   >;
 
+/**
+ * An HTML Canvas component that allows for easy drawing
+ */
 const Canvas: React.FC<CanvasProps> = ({
   targetFramerate = DEFAULT_TARGET_FRAMERATE,
   noLoop,

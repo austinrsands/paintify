@@ -13,6 +13,9 @@ const useStyles = makeStyles({
   },
 });
 
+/**
+ * Represents all properties of this component
+ */
 export type TabPanelContentProps = BoxProps;
 
 const TabPanelContent: React.FC<TabPanelContentProps> = ({
