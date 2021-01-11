@@ -4,7 +4,14 @@ import { useAppContext } from '../../../../../../context';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 import { isInRange } from '../../../../../../../util/math';
 
-const MaskingPreview: React.FC<StyleProps> = (props) => {
+interface Props {
+  brightnesses: number[];
+}
+
+const MaskingPreview: React.FC<Props & StyleProps> = ({
+  brightnesses,
+  ...rest
+}) => {
   const { state } = useAppContext();
 
   // Draw masking image
@@ -15,15 +22,13 @@ const MaskingPreview: React.FC<StyleProps> = (props) => {
       // Get pixel data from image
       const data = state.imageData.data.slice(0);
 
-      // Change brightnesses
-      for (let i = 0; i < data.length; i += 4) {
-        const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      // Filter brightnesses
+      brightnesses.forEach((brightness, index) => {
         const pixelIsIsAllowed = isInRange(brightness, state.brightnessRange);
         const channelValue = pixelIsIsAllowed ? 0 : 255;
-        data[i] = channelValue;
-        data[i + 1] = channelValue;
-        data[i + 2] = channelValue;
-      }
+        const pixelIndex = 4 * index;
+        data.fill(channelValue, pixelIndex, pixelIndex + 3);
+      });
 
       // Draw the masking image
       const maskingImageData = new ImageData(
@@ -33,7 +38,7 @@ const MaskingPreview: React.FC<StyleProps> = (props) => {
       );
       context.putImageData(maskingImageData, 0, 0);
     },
-    [state.brightnessRange, state.imageData],
+    [brightnesses, state.brightnessRange, state.imageData],
   );
 
   return state.imageData ? (
@@ -42,7 +47,7 @@ const MaskingPreview: React.FC<StyleProps> = (props) => {
       height={state.imageData.height}
       onSetup={setup}
       noLoop
-      {...props}
+      {...rest}
     />
   ) : null;
 };

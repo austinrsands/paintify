@@ -27,10 +27,10 @@ export const drawDirectionField = (
     drawArrow(
       context,
       {
-        x: directedPoint.position.x * scale.x,
-        y: directedPoint.position.y * scale.y,
+        x: directedPoint.point.x * scale.x,
+        y: directedPoint.point.y * scale.y,
       },
-      directedPoint.angle,
+      directedPoint.direction,
       arrowLength,
       bladeLength,
     ),

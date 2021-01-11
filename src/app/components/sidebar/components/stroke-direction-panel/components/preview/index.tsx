@@ -1,39 +1,24 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
 import StyleProps from '../../../../../../../lib/structures/style-props';
 import { fillBackground } from '../../../../../../../util/drawing/background';
-import { generateDirectionField } from '../../../../../../../util/image-processing/direction-field';
 import { drawDirectionField } from '../../../../../../../util/drawing/direction-field';
+import DirectionField from '../../../../../../../lib/structures/direction-field';
 
 const PREVIEW_WIDTH = 500;
-const ARROWS_PER_LINE = 25;
 const ARROW_LENGTH = 8;
 const ARROW_BLADE_LENGTH = 2;
 
-const DirectionFieldPreview: React.FC<StyleProps> = (props) => {
-  const { state } = useAppContext();
+interface Props {
+  directionField: DirectionField;
+}
 
-  const directionField = useMemo(
-    () =>
-      state.imageData
-        ? generateDirectionField(
-            state.imageData,
-            ARROWS_PER_LINE,
-            state.noiseScale,
-            state.noiseSeed,
-            state.noiseCurl,
-            state.edgeThreshold,
-          )
-        : undefined,
-    [
-      state.edgeThreshold,
-      state.imageData,
-      state.noiseCurl,
-      state.noiseScale,
-      state.noiseSeed,
-    ],
-  );
+const DirectionFieldPreview: React.FC<Props & StyleProps> = ({
+  directionField,
+  ...rest
+}) => {
+  const { state } = useAppContext();
 
   // Draw direction field
   const setup = useCallback(
@@ -60,7 +45,7 @@ const DirectionFieldPreview: React.FC<StyleProps> = (props) => {
       height={PREVIEW_WIDTH * (state.imageData.height / state.imageData.width)}
       onSetup={setup}
       noLoop
-      {...props}
+      {...rest}
     />
   ) : null;
 };

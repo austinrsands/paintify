@@ -17,7 +17,7 @@ const NoiseScaleSlider: React.FC<SliderProps> = (props) => {
     <Slider
       value={state.noiseScale}
       min={0.00001}
-      max={0.0025}
+      max={0.003}
       step={0.00005}
       onChange={handleChange}
       {...props}

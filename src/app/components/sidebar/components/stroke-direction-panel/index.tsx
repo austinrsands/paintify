@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { makeStyles } from '@material-ui/core';
 import TabPanel, {
   TabPanelProps,
@@ -11,6 +11,12 @@ import TabPanelLabel from '../../../../../lib/components/tab-panel/label';
 import NoiseSeedInput from './components/noise-seed-input';
 import NoiseCurlSlider from './components/noise-curl-slider';
 import EdgeThresholdSlider from './components/edge-threshold-slider';
+import { useAppContext } from '../../../../context';
+import gridPoints from '../../../../../util/image-processing/grid-points';
+import edgeDetails from '../../../../../util/image-processing/edge-details';
+import noiseDirection from '../../../../../util/image-processing/noise-direction';
+import { strokeDirectionField } from '../../../../../util/image-processing/stroke-direction';
+import Size from '../../../../../lib/structures/size';
 
 const useStyles = makeStyles({
   option: {
@@ -18,14 +24,70 @@ const useStyles = makeStyles({
   },
 });
 
+const SAMPLES_PER_ROW = 25;
+
 const StrokeDirectionPanel: React.FC<TabPanelProps> = (props) => {
   const classes = useStyles();
+  const { state } = useAppContext();
+
+  // Determine points to sample
+  const samplePoints = useMemo(() => {
+    if (!state.imageData) return [];
+    return gridPoints(state.imageData, SAMPLES_PER_ROW);
+  }, [state.imageData]);
+
+  // Memoize edge details
+  const edgeInformation = useMemo(() => {
+    if (!state.imageData) return [];
+    // Needed for typescript to recognize definite value
+    // eslint-disable-next-line prefer-destructuring
+    const imageData = state.imageData;
+    return samplePoints.map((point) => edgeDetails(imageData, point));
+  }, [samplePoints, state.imageData]);
+
+  // Memoize noise directions
+  const noiseInformation = useMemo(
+    () =>
+      samplePoints.map((point) =>
+        noiseDirection(
+          point,
+          state.noiseScale,
+          state.noiseSeed,
+          state.noiseCurl,
+        ),
+      ),
+    [samplePoints, state.noiseCurl, state.noiseScale, state.noiseSeed],
+  );
+
+  // Memoize resulting direction field
+  const directionField = useMemo(() => {
+    if (!state.imageData) return null;
+    const size: Size = {
+      width: state.imageData.width,
+      height: state.imageData.height,
+    };
+    return strokeDirectionField(
+      size,
+      samplePoints,
+      edgeInformation,
+      noiseInformation,
+      state.edgeThreshold,
+    );
+  }, [
+    edgeInformation,
+    noiseInformation,
+    samplePoints,
+    state.edgeThreshold,
+    state.imageData,
+  ]);
 
   return (
     <TabPanel {...props}>
       <TabPanelTitle>Stroke Direction</TabPanelTitle>
       <TabPanelContent>
-        <DirectionFieldPreview />
+        {directionField && (
+          <DirectionFieldPreview directionField={directionField} />
+        )}
         <TabPanelLabel title="Noise Seed">
           <NoiseSeedInput className={classes.option} />
         </TabPanelLabel>

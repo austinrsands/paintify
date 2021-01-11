@@ -67,7 +67,7 @@ const AppReducer = (state: AppState, action: AppAction) => {
     case 'update-edge-threshold': {
       return {
         ...state,
-        edgeCutoff: action.threshold,
+        edgeThreshold: action.threshold,
       };
     }
     case 'update-brightness-range': {

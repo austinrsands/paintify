@@ -16,8 +16,8 @@ const EdgeThresholdSlider: React.FC<SliderProps> = (props) => {
   return (
     <Slider
       value={state.edgeThreshold}
-      min={-255}
-      max={255}
+      min={0}
+      max={100}
       step={1}
       onChange={handleChange}
       {...props}
