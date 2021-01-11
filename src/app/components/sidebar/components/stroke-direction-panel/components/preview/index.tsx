@@ -23,18 +23,17 @@ const DirectionFieldPreview: React.FC<Props & StyleProps> = ({
   // Draw direction field
   const setup = useCallback(
     (context: CanvasRenderingContext2D) => {
-      if (directionField) {
-        context.fillStyle = 'white';
-        fillBackground(context);
-        context.lineWidth = 1;
-        context.strokeStyle = 'black';
-        drawDirectionField(
-          context,
-          directionField,
-          ARROW_LENGTH,
-          ARROW_BLADE_LENGTH,
-        );
-      }
+      if (!directionField) return;
+      context.fillStyle = 'white';
+      fillBackground(context);
+      context.lineWidth = 1;
+      context.strokeStyle = 'black';
+      drawDirectionField(
+        context,
+        directionField,
+        ARROW_LENGTH,
+        ARROW_BLADE_LENGTH,
+      );
     },
     [directionField],
   );

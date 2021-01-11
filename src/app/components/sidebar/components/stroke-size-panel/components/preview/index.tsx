@@ -13,12 +13,11 @@ const QuadTreePreview: React.FC<StyleProps> = (props) => {
   // Draw quad tree
   const setup = useCallback(
     (context: CanvasRenderingContext2D) => {
-      if (state.quadTree) {
-        context.fillStyle = 'white';
-        fillBackground(context);
-        context.lineWidth = 1;
-        drawQuadTree(context, state.quadTree);
-      }
+      if (!state.quadTree) return;
+      context.fillStyle = 'white';
+      fillBackground(context);
+      context.lineWidth = 1;
+      drawQuadTree(context, state.quadTree);
     },
     [state.quadTree],
   );

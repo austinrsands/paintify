@@ -1,8 +1,10 @@
-import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 import { useAppContext } from '../../../../../../context';
 
-const NoiseCurlSlider: React.FC<SliderProps> = (props) => {
+const NoiseCurlSlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -14,12 +16,12 @@ const NoiseCurlSlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={state.noiseCurl}
+    <ImprovedSlider
+      initialValue={state.noiseCurl}
       min={0.1}
       max={2}
       step={0.01}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );

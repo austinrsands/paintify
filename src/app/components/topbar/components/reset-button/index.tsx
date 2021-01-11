@@ -9,10 +9,9 @@ const ResetButton: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
   const handleClick = () => {
     // Clear the painting
-    if (state.paintingContext) {
-      state.paintingContext.fillStyle = 'white';
-      fillBackground(state.paintingContext);
-    }
+    if (!state.paintingContext) return;
+    state.paintingContext.fillStyle = 'white';
+    fillBackground(state.paintingContext);
   };
 
   return (

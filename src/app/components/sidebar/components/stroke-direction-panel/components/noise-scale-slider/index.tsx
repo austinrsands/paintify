@@ -1,8 +1,10 @@
-import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
 import { useAppContext } from '../../../../../../context';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 
-const NoiseScaleSlider: React.FC<SliderProps> = (props) => {
+const NoiseScaleSlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -14,12 +16,12 @@ const NoiseScaleSlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={state.noiseScale}
+    <ImprovedSlider
+      initialValue={state.noiseScale}
       min={0.00001}
       max={0.003}
       step={0.00005}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );

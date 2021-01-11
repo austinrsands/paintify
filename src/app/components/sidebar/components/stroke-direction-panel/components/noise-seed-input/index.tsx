@@ -5,12 +5,13 @@ import {
   InputProps,
 } from '@material-ui/core';
 import CasinoRounded from '@material-ui/icons/CasinoRounded';
-import React from 'react';
+import React, { useRef } from 'react';
 import { randomSeed } from '../../../../../../../util/math';
 import { useAppContext } from '../../../../../../context';
 
 const NoiseSeedInput: React.FC<InputProps> = (props) => {
   const { state, dispatch } = useAppContext();
+  const defaultValueRef = useRef(state.noiseSeed);
 
   const handleRandomizeSeed = () => {
     dispatch({ type: 'update-noise-seed', seed: randomSeed() });
@@ -25,7 +26,7 @@ const NoiseSeedInput: React.FC<InputProps> = (props) => {
   return (
     <Input
       color="primary"
-      value={state.noiseSeed}
+      defaultValue={defaultValueRef.current}
       spellCheck={false}
       endAdornment={
         <InputAdornment position="end">

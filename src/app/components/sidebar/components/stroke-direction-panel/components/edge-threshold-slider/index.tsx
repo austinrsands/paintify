@@ -1,8 +1,10 @@
-import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 import { useAppContext } from '../../../../../../context';
 
-const EdgeThresholdSlider: React.FC<SliderProps> = (props) => {
+const EdgeThresholdSlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -14,12 +16,12 @@ const EdgeThresholdSlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={state.edgeThreshold}
+    <ImprovedSlider
+      initialValue={state.edgeThreshold}
       min={0}
       max={100}
       step={1}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );

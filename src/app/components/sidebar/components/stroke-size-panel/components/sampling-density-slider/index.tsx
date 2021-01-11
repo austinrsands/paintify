@@ -1,9 +1,12 @@
-import { Slider, SliderProps } from '@material-ui/core';
-import React from 'react';
+import React, { useRef } from 'react';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 import { useAppContext } from '../../../../../../context';
 
-const SamplingDensitySlider: React.FC<SliderProps> = (props) => {
+const SamplingDensitySlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
+  const defaultValueRef = useRef(state.quadTreeSamplingDensity);
 
   const handleChange = (
     _event: React.ChangeEvent<{}>,
@@ -14,12 +17,12 @@ const SamplingDensitySlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={state.quadTreeSamplingDensity}
+    <ImprovedSlider
+      initialValue={defaultValueRef.current}
       min={0.00001}
       max={0.005}
       step={0.0001}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );

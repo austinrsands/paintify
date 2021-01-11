@@ -1,9 +1,11 @@
-import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 import InclusiveRange from '../../../../../../../lib/structures/inclusive-range';
 import { useAppContext } from '../../../../../../context';
 
-const SizeRangeSlider: React.FC<SliderProps> = (props) => {
+const SizeRangeSlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -16,12 +18,12 @@ const SizeRangeSlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={[state.quadTreeSizeRange.min, state.quadTreeSizeRange.max]}
+    <ImprovedSlider
+      initialValue={[state.quadTreeSizeRange.min, state.quadTreeSizeRange.max]}
       min={10}
       max={1000}
       step={10}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );

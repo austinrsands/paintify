@@ -1,8 +1,10 @@
-import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 import { useAppContext } from '../../../../../../context';
 
-const SubdivisionThresholdSlider: React.FC<SliderProps> = (props) => {
+const SubdivisionThresholdSlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -17,12 +19,12 @@ const SubdivisionThresholdSlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={state.quadTreeSubdivisionThreshold}
+    <ImprovedSlider
+      initialValue={state.quadTreeSubdivisionThreshold}
       min={0}
       max={50}
       step={0.5}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );

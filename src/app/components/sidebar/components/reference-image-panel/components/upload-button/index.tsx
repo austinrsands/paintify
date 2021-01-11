@@ -9,12 +9,11 @@ const getData = (bitmap: ImageBitmap): ImageData | null => {
   const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
   const context = canvas.getContext('2d');
 
+  if (!context) return null;
+
   // Draw image onto canvas and return the image data.
-  if (context != null) {
-    context.drawImage(bitmap, 0, 0);
-    return context.getImageData(0, 0, canvas.width, canvas.height);
-  }
-  return null;
+  context.drawImage(bitmap, 0, 0);
+  return context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
 const ReferenceImageUploadButton: React.FC<StyleProps> = (props) => {

@@ -1,9 +1,11 @@
-import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
+import ImprovedSlider, {
+  ImprovedSliderProps,
+} from '../../../../../../../lib/components/improved-slider';
 import InclusiveRange from '../../../../../../../lib/structures/inclusive-range';
 import { useAppContext } from '../../../../../../context';
 
-const BrightnessThresholdSlider: React.FC<SliderProps> = (props) => {
+const BrightnessThresholdSlider: React.FC<ImprovedSliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -16,12 +18,12 @@ const BrightnessThresholdSlider: React.FC<SliderProps> = (props) => {
   };
 
   return (
-    <Slider
-      value={[state.brightnessRange.min, state.brightnessRange.max]}
+    <ImprovedSlider
+      initialValue={[state.brightnessRange.min, state.brightnessRange.max]}
       min={0}
       max={255}
       step={1}
-      onChange={handleChange}
+      onChangeCommitted={handleChange}
       {...props}
     />
   );
