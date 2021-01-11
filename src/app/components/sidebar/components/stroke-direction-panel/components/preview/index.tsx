@@ -23,11 +23,11 @@ const DirectionFieldPreview: React.FC<StyleProps> = (props) => {
             state.noiseScale,
             state.noiseSeed,
             state.noiseCurl,
-            state.edgeCutoff,
+            state.edgeThreshold,
           )
         : undefined,
     [
-      state.edgeCutoff,
+      state.edgeThreshold,
       state.imageData,
       state.noiseCurl,
       state.noiseScale,

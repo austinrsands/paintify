@@ -10,7 +10,7 @@ import NoiseScaleSlider from './components/noise-scale-slider';
 import TabPanelLabel from '../../../../../lib/components/tab-panel/label';
 import NoiseSeedInput from './components/noise-seed-input';
 import NoiseCurlSlider from './components/noise-curl-slider';
-import EdgeCutoffSlider from './components/edge-cutoff-slider';
+import EdgeThresholdSlider from './components/edge-threshold-slider';
 
 const useStyles = makeStyles({
   option: {
@@ -35,8 +35,8 @@ const StrokeDirectionPanel: React.FC<TabPanelProps> = (props) => {
         <TabPanelLabel title="Noise Curl">
           <NoiseCurlSlider className={classes.option} />
         </TabPanelLabel>
-        <TabPanelLabel title="Edge Cutoff">
-          <EdgeCutoffSlider className={classes.option} />
+        <TabPanelLabel title="Edge Threshold">
+          <EdgeThresholdSlider className={classes.option} />
         </TabPanelLabel>
       </TabPanelContent>
     </TabPanel>

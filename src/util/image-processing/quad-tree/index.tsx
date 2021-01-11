@@ -46,7 +46,7 @@ export const generateQuadTree = (
   imageData: ImageData,
   samplingDensity: number,
   subdivisionThreshold: number,
-  subtreeDiagonalRange: InclusiveRange = { min: Math.SQRT1_2, max: 200 },
+  subtreeDiagonalRange: InclusiveRange,
 ): QuadTree => {
   // Initialize quad tree
   const quadTree = new QuadTree(

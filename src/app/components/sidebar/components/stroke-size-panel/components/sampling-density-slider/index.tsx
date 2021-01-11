@@ -2,7 +2,7 @@ import { Slider, SliderProps } from '@material-ui/core';
 import React from 'react';
 import { useAppContext } from '../../../../../../context';
 
-const EdgeCutoffSlider: React.FC<SliderProps> = (props) => {
+const SamplingDensitySlider: React.FC<SliderProps> = (props) => {
   const { state, dispatch } = useAppContext();
 
   const handleChange = (
@@ -10,19 +10,19 @@ const EdgeCutoffSlider: React.FC<SliderProps> = (props) => {
     value: number[] | number,
   ) => {
     if (value instanceof Array) return;
-    dispatch({ type: 'update-edge-cutoff', cutoff: value });
+    dispatch({ type: 'update-quad-tree-sampling-density', density: value });
   };
 
   return (
     <Slider
-      value={state.edgeCutoff}
-      min={-255}
-      max={255}
-      step={1}
+      value={state.quadTreeSamplingDensity}
+      min={0.00001}
+      max={0.005}
+      step={0.0001}
       onChange={handleChange}
       {...props}
     />
   );
 };
 
-export default EdgeCutoffSlider;
+export default SamplingDensitySlider;

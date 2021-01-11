@@ -28,6 +28,24 @@ const AppReducer = (state: AppState, action: AppAction) => {
         quadTree: action.tree,
       };
     }
+    case 'update-quad-tree-sampling-density': {
+      return {
+        ...state,
+        quadTreeSamplingDensity: action.density,
+      };
+    }
+    case 'update-quad-tree-subdivision-threshold': {
+      return {
+        ...state,
+        quadTreeSubdivisionThreshold: action.threshold,
+      };
+    }
+    case 'update-quad-tree-size-range': {
+      return {
+        ...state,
+        quadTreeSizeRange: action.range,
+      };
+    }
     case 'update-noise-scale': {
       return {
         ...state,
@@ -46,10 +64,10 @@ const AppReducer = (state: AppState, action: AppAction) => {
         noiseCurl: action.curl,
       };
     }
-    case 'update-edge-cutoff': {
+    case 'update-edge-threshold': {
       return {
         ...state,
-        edgeCutoff: action.cutoff,
+        edgeCutoff: action.threshold,
       };
     }
     case 'update-brightness-range': {
