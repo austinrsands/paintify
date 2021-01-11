@@ -10,13 +10,17 @@ import { strokeDirection } from '../stroke-direction';
  * @param arrowsPerLine the number of arrows to draw per row
  * @param noiseScale the amount to scale the simplex noise function
  * @param noiseSeed the seed of the simplex noise function
+ * @param noiseCurl the amount to curl the noise function
+ * @param edgeCutoff the threshold at which the image's edge direction determines the stroke direction
  * @return the generated direction field
  */
 export const generateDirectionField = (
   imageData: ImageData,
   arrowsPerLine: number,
   noiseScale: number,
-  noiseSeed?: string,
+  noiseSeed: string,
+  noiseCurl: number,
+  edgeCutoff: number,
 ) => {
   // Determine spacing of directed points so that they fill the space evenly
   const size: Size = { width: imageData.width, height: imageData.height };
@@ -30,9 +34,11 @@ export const generateDirectionField = (
         position: { x, y },
         angle: strokeDirection(
           imageData,
-          { x: Math.floor(x), y: Math.floor(y) },
+          { x, y },
           noiseScale,
           noiseSeed,
+          noiseCurl,
+          edgeCutoff,
         ),
       };
       directedPoints.push(directedPoint);

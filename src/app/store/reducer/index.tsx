@@ -28,6 +28,36 @@ const AppReducer = (state: AppState, action: AppAction) => {
         quadTree: action.tree,
       };
     }
+    case 'update-noise-scale': {
+      return {
+        ...state,
+        noiseScale: action.scale,
+      };
+    }
+    case 'update-noise-seed': {
+      return {
+        ...state,
+        noiseSeed: action.seed,
+      };
+    }
+    case 'update-noise-curl': {
+      return {
+        ...state,
+        noiseCurl: action.curl,
+      };
+    }
+    case 'update-edge-cutoff': {
+      return {
+        ...state,
+        edgeCutoff: action.cutoff,
+      };
+    }
+    case 'update-brightness-range': {
+      return {
+        ...state,
+        brightnessRange: action.range,
+      };
+    }
     default: {
       return state;
     }

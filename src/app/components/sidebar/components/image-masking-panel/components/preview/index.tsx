@@ -2,10 +2,7 @@ import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
 import StyleProps from '../../../../../../../lib/structures/style-props';
-import InclusiveRange from '../../../../../../../lib/structures/inclusive-range';
 import { isInRange } from '../../../../../../../util/math';
-
-const BRIGHTNESS_RANGE: InclusiveRange = { min: 100, max: 200 };
 
 const MaskingPreview: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();
@@ -21,7 +18,7 @@ const MaskingPreview: React.FC<StyleProps> = (props) => {
       // Change brightnesses
       for (let i = 0; i < data.length; i += 4) {
         const brightness = (data[i] + data[i + 1] + data[i + 2]) / 3;
-        const pixelIsIsAllowed = isInRange(brightness, BRIGHTNESS_RANGE);
+        const pixelIsIsAllowed = isInRange(brightness, state.brightnessRange);
         const channelValue = pixelIsIsAllowed ? 0 : 255;
         data[i] = channelValue;
         data[i + 1] = channelValue;
@@ -36,7 +33,7 @@ const MaskingPreview: React.FC<StyleProps> = (props) => {
       );
       context.putImageData(maskingImageData, 0, 0);
     },
-    [state.imageData],
+    [state.brightnessRange, state.imageData],
   );
 
   return state.imageData ? (

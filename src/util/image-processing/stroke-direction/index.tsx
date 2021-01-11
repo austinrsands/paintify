@@ -10,18 +10,28 @@ import { SOBEL_X, SOBEL_Y } from '../kernels';
  * @param point the position of the stroke on the canvas
  * @param noiseScale the amount to scale the simplex noise function
  * @param noiseSeed the seed of the simplex noise function
+ * @param noiseCurl the amount to curl the noise function
+ * @param edgeCutoff the threshold at which the image's edge direction determines the stroke direction
  * @returns the direction that the stroke should be painted
  */
 export const strokeDirection = (
   imageData: ImageData,
   point: Vector,
   noiseScale: number,
-  noiseSeed?: string,
+  noiseSeed: string,
+  noiseCurl: number,
+  edgeCutoff: number,
 ) => {
+  // Snap point to pixel grid
+  const pixelCoordinate: Vector = {
+    x: Math.floor(point.x),
+    y: Math.floor(point.y),
+  };
+
   // Take sobel derivatives
   const sobelDerivative: Vector = {
-    x: convolveWithGrayscale(imageData, SOBEL_X, point),
-    y: convolveWithGrayscale(imageData, SOBEL_Y, point),
+    x: convolveWithGrayscale(imageData, SOBEL_X, pixelCoordinate),
+    y: convolveWithGrayscale(imageData, SOBEL_Y, pixelCoordinate),
   };
 
   // Determine edge strength and direction
@@ -31,8 +41,14 @@ export const strokeDirection = (
   // Calculate simplex noise angle
   const simplex = new SimplexNoise(noiseSeed);
   const noiseAngle =
-    simplex.noise2D(point.x * noiseScale, point.y * noiseScale) * Math.PI * 2;
+    simplex.noise2D(
+      pixelCoordinate.x * noiseScale,
+      pixelCoordinate.y * noiseScale,
+    ) *
+    Math.PI *
+    2 *
+    noiseCurl;
 
   // Determine resulting stroke direction
-  return edgeStrength === 0 ? noiseAngle : edgeDirection;
+  return Math.abs(edgeStrength) < edgeCutoff ? noiseAngle : edgeDirection;
 };

@@ -8,6 +8,10 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: '2rem',
+  },
+  title: {
+    marginRight: '2rem',
   },
 });
 
@@ -26,7 +30,9 @@ const TabPanelLabel: React.FC<Props & BoxProps> = ({
   const classes = useStyles();
   return (
     <Box className={clsx(classes.root, className)} {...rest}>
-      <Typography variant="subtitle1">{title}</Typography>
+      <Typography className={classes.title} variant="subtitle1">
+        {title}
+      </Typography>
       {children}
     </Box>
   );

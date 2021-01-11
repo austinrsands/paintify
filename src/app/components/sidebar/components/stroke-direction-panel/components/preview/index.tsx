@@ -17,9 +17,22 @@ const DirectionFieldPreview: React.FC<StyleProps> = (props) => {
   const directionField = useMemo(
     () =>
       state.imageData
-        ? generateDirectionField(state.imageData, ARROWS_PER_LINE, 0.00003)
+        ? generateDirectionField(
+            state.imageData,
+            ARROWS_PER_LINE,
+            state.noiseScale,
+            state.noiseSeed,
+            state.noiseCurl,
+            state.edgeCutoff,
+          )
         : undefined,
-    [state.imageData],
+    [
+      state.edgeCutoff,
+      state.imageData,
+      state.noiseCurl,
+      state.noiseScale,
+      state.noiseSeed,
+    ],
   );
 
   // Draw direction field
