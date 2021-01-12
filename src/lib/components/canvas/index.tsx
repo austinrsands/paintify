@@ -1,4 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import Vector from '../../../util/structures/vector';
 
 const DEFAULT_TARGET_FRAMERATE = 120;
 interface Props {
@@ -8,12 +9,16 @@ interface Props {
   onPredraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
   onDraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
   onPostdraw?: (context: CanvasRenderingContext2D, deltaTime: number) => void;
+  onZoom?: (direction: number, position: Vector) => void;
 }
 
 export type CanvasProps = Props &
-  React.DetailedHTMLProps<
-    React.CanvasHTMLAttributes<HTMLCanvasElement>,
-    HTMLCanvasElement
+  Omit<
+    React.DetailedHTMLProps<
+      React.CanvasHTMLAttributes<HTMLCanvasElement>,
+      HTMLCanvasElement
+    >,
+    'ref'
   >;
 
 /**
@@ -26,6 +31,8 @@ const Canvas: React.FC<CanvasProps> = ({
   onPredraw,
   onDraw,
   onPostdraw,
+  onWheel,
+  onZoom,
   ...rest
 }) => {
   // Reference to canvas element
@@ -96,7 +103,46 @@ const Canvas: React.FC<CanvasProps> = ({
     previousFrameTime.current = frameTime;
   }, [drawingContext, frameTime, onPredraw, onDraw, onPostdraw]);
 
-  return <canvas ref={canvasRef} {...rest} />;
+  // Returns the given client position in canvas space
+  const getPositionOnCanvas = useCallback(
+    (pagePosition: Vector) => {
+      if (!drawingContext) return null;
+      const canvasRect = drawingContext.canvas.getBoundingClientRect();
+      const position: Vector = {
+        x:
+          ((pagePosition.x - canvasRect.left) /
+            (canvasRect.right - canvasRect.left)) *
+          drawingContext.canvas.width,
+        y:
+          ((pagePosition.y - canvasRect.top) /
+            (canvasRect.bottom - canvasRect.top)) *
+          drawingContext.canvas.height,
+      };
+      return position;
+    },
+    [drawingContext],
+  );
+
+  // Handles scroll events
+  const handleZoom = useCallback(
+    (event: React.WheelEvent<HTMLCanvasElement>) => {
+      // Call normal on wheel handler
+      if (onWheel) onWheel(event);
+
+      // Determine zoom direction and position and call zoom handler prop
+      if (!onZoom) return;
+      const position = getPositionOnCanvas({
+        x: event.pageX,
+        y: event.pageY,
+      });
+      if (!position) return;
+      const direction = Math.sign(event.deltaY);
+      onZoom(direction, position);
+    },
+    [getPositionOnCanvas, onWheel, onZoom],
+  );
+
+  return <canvas ref={canvasRef} onWheel={handleZoom} {...rest} />;
 };
 
 export default Canvas;

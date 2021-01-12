@@ -3,7 +3,11 @@ import { Portal } from '@material-ui/core';
 import Canvas, { CanvasProps } from '../../../lib/components/canvas';
 import Size from '../../../util/structures/size';
 import { useAppContext } from '../../context';
-import { getScaleToFit, isInRange } from '../../../util/math';
+import {
+  getPositionAfterZoom,
+  getScaleToFit,
+  isInRange,
+} from '../../../util/math';
 import Rect from '../../../util/structures/rect';
 import Vector from '../../../util/structures/vector';
 import {
@@ -19,10 +23,14 @@ import {
 import getStrokeDirection from '../../../util/image-processing/stroke-direction';
 import getEdgeDetails from '../../../util/image-processing/edge-details';
 import getNoiseDirection from '../../../util/image-processing/noise-direction';
+import InclusiveRange from '../../../util/structures/inclusive-range';
 
 const canvasRoot = document.getElementById('canvas-root');
 
 const MAX_SEARCH_ATTEMPTS = 500;
+const ZOOM_RANGE: InclusiveRange = { min: 0.1, max: 10 };
+const ZOOM_STEP = 1.05;
+
 interface Props {
   size: Size;
 }
@@ -42,6 +50,7 @@ type PaintingProps = Props &
 const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
   const { state, dispatch } = useAppContext();
   const [canvasRect, setCanvasRect] = useState<Rect>();
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   // Holds various sizes of the current brush style
   const [brushes, setBrushes] = useState<Map<number, Brush>>(new Map());
@@ -101,6 +110,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     };
 
     // Update painting rect
+    setZoomLevel(1);
     setCanvasRect({ size: canvasSize, position: canvasPosition });
   }, [size.height, size.width, state.paintingContext]);
 
@@ -266,6 +276,32 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     [paint, state.isPainting, updateCanvas],
   );
 
+  // Zooms in or out of painting
+  const zoom = useCallback(
+    (direction: number, position: Vector) => {
+      if (!canvasRect) return;
+      const zoomAmount = ZOOM_STEP ** -direction;
+      const newZoomLevel = zoomLevel * zoomAmount;
+
+      // Constrain zooming
+      if (!isInRange(newZoomLevel, ZOOM_RANGE)) return;
+      const canvasPosition = getPositionAfterZoom(
+        canvasRect.position,
+        zoomAmount,
+        position,
+      );
+      const canvasSize: Size = {
+        width: canvasRect.size.width * zoomAmount,
+        height: canvasRect.size.height * zoomAmount,
+      };
+
+      // Update canvas rect
+      setZoomLevel(newZoomLevel);
+      setCanvasRect({ position: canvasPosition, size: canvasSize });
+    },
+    [canvasRect, zoomLevel],
+  );
+
   return (
     <Portal container={canvasRoot}>
       <Canvas
@@ -273,6 +309,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
         height={size.height}
         onSetup={setup}
         onDraw={draw}
+        onZoom={zoom}
         targetFramerate={60}
         {...rest}
       />

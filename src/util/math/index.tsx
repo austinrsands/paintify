@@ -157,3 +157,31 @@ export const getRandomColor = (): Color => ({
   blue: Math.random() * 255,
   alpha: 1,
 });
+
+/**
+ * Returns the position of a point after a zoom transformation has been applied at an anchor point
+ *
+ * @param point the point whose new position is to be determined
+ * @param zoom the amount to scale the coordinate space
+ * @param anchor the point where the zoom transformation takes place
+ * @returns the new position of the given point
+ */
+export const getPositionAfterZoom = (
+  point: Vector,
+  zoom: number,
+  anchor: Vector,
+) => {
+  const translatedPoint: Vector = {
+    x: point.x - anchor.x,
+    y: point.y - anchor.y,
+  };
+  const scaledPoint: Vector = {
+    x: translatedPoint.x * zoom,
+    y: translatedPoint.y * zoom,
+  };
+  const resultPoint: Vector = {
+    x: scaledPoint.x + anchor.x,
+    y: scaledPoint.y + anchor.y,
+  };
+  return resultPoint;
+};
