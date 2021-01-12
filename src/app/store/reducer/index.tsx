@@ -49,7 +49,7 @@ const AppReducer = (state: AppState, action: AppAction) => {
     case 'update-stroke-length-ratio': {
       return {
         ...state,
-        strokeLength: action.ratio,
+        strokeLengthRatio: action.ratio,
       };
     }
     case 'update-stroke-taper': {
