@@ -23,7 +23,7 @@ const getNoiseDirection = (
   };
 
   // Calculate simplex noise angle
-  const simplex = new SimplexNoise(noiseSeed);
+  const simplex = new SimplexNoise(noiseSeed || ' ');
   const direction =
     (simplex.noise2D(
       pixelCoordinate.x * noiseScale,
