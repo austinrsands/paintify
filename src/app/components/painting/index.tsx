@@ -3,7 +3,7 @@ import { Portal } from '@material-ui/core';
 import Canvas, { CanvasProps } from '../../../lib/components/canvas';
 import Size from '../../../util/structures/size';
 import { useAppContext } from '../../context';
-import { getScaleToFit } from '../../../util/math';
+import { getScaleToFit, isInRange } from '../../../util/math';
 import Rect from '../../../util/structures/rect';
 import Vector from '../../../util/structures/vector';
 import {
@@ -12,13 +12,17 @@ import {
 } from '../../../util/drawing/background';
 import { paintStroke } from '../../../util/drawing/stroke';
 import Brush from '../../../util/structures/brush';
-import { getPixelColor } from '../../../util/image-processing/pixels';
+import {
+  getPixelBrightness,
+  getPixelColor,
+} from '../../../util/image-processing/pixels';
 import getStrokeDirection from '../../../util/image-processing/stroke-direction';
 import getEdgeDetails from '../../../util/image-processing/edge-details';
 import getNoiseDirection from '../../../util/image-processing/noise-direction';
 
 const canvasRoot = document.getElementById('canvas-root');
 
+const MAX_SEARCH_ATTEMPTS = 500;
 interface Props {
   size: Size;
 }
@@ -97,6 +101,27 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     setCanvasRect({ size: canvasSize, position: canvasPosition });
   }, [size.height, size.width, state.paintingContext]);
 
+  // Returns a position for the stroke if possible
+  const lookForStrokePosition = useCallback(() => {
+    if (!state.paintingContext || !state.imageData) return null;
+    let searchAttempts = 0;
+    while (searchAttempts < MAX_SEARCH_ATTEMPTS) {
+      // Pick random position
+      const strokePosition: Vector = {
+        x: Math.floor(Math.random() * state.paintingContext.canvas.width),
+        y: Math.floor(Math.random() * state.paintingContext.canvas.height),
+      };
+
+      const brightness = getPixelBrightness(state.imageData, strokePosition);
+
+      // Return position if it is in brightness range
+      if (isInRange(brightness, state.brightnessRange)) return strokePosition;
+
+      searchAttempts += 1;
+    }
+    return null;
+  }, [state.brightnessRange, state.imageData, state.paintingContext]);
+
   // Draws painting onto canvas
   const updateCanvas = useCallback(
     (context: CanvasRenderingContext2D) => {
@@ -117,10 +142,10 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
   const paint = useCallback(() => {
     if (!state.paintingContext || !state.imageData || !state.quadTree) return;
 
-    const strokePosition: Vector = {
-      x: Math.floor(Math.random() * state.paintingContext.canvas.width),
-      y: Math.floor(Math.random() * state.paintingContext.canvas.height),
-    };
+    const strokePosition = lookForStrokePosition();
+
+    // Return if no position was found
+    if (!strokePosition) return;
 
     const paintColor = {
       ...getPixelColor(state.imageData, strokePosition),
@@ -135,6 +160,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
       state.noiseSeed,
       state.noiseCurl,
     );
+
     const strokeDirection = getStrokeDirection(
       edgeDetails.direction,
       noiseDirection,
@@ -144,6 +170,8 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
 
     const strokeLength = state.quadTree.smallestBoundingSubtree(strokePosition)
       ?.diagonal;
+
+    // Return if point is not contained in quad tree (should never happen though)
     if (!strokeLength) return;
 
     const brushHeight = strokeLength / state.strokeLengthRatio;
@@ -164,6 +192,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
       state.strokeLift,
     );
   }, [
+    lookForStrokePosition,
     state.brushDensity,
     state.brushRoundness,
     state.edgeThreshold,
