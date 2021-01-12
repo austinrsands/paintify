@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton } from '@material-ui/core';
 import ReplayRoundedIcon from '@material-ui/icons/ReplayRounded';
-import StyleProps from '../../../../../lib/structures/style-props';
+import StyleProps from '../../../../../util/structures/style-props';
 import { useAppContext } from '../../../../context';
 import { fillBackground } from '../../../../../util/drawing/background';
 

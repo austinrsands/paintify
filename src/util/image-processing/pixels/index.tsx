@@ -1,5 +1,5 @@
-import Color from '../../../lib/structures/color';
-import Vector from '../../../lib/structures/vector';
+import Color from '../../structures/color';
+import Vector from '../../structures/vector';
 
 /**
  * Returns brightness of a color

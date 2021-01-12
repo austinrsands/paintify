@@ -1,17 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Portal } from '@material-ui/core';
 import Canvas, { CanvasProps } from '../../../lib/components/canvas';
-import Size from '../../../lib/structures/size';
+import Size from '../../../util/structures/size';
 import { useAppContext } from '../../context';
 import { scaleToFit } from '../../../util/math';
-import Rect from '../../../lib/structures/rect';
-import Vector from '../../../lib/structures/vector';
+import Rect from '../../../util/structures/rect';
+import Vector from '../../../util/structures/vector';
 import {
   clearBackground,
   fillBackground,
 } from '../../../util/drawing/background';
 import { paintStroke } from '../../../util/drawing/stroke';
-import Brush from '../../../lib/structures/brush';
+import Brush from '../../../util/structures/brush';
 
 const canvasRoot = document.getElementById('canvas-root');
 

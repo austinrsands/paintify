@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
-import StyleProps from '../../../../../../../lib/structures/style-props';
+import StyleProps from '../../../../../../../util/structures/style-props';
 import { fillBackground } from '../../../../../../../util/drawing/background';
 import { drawDirectionField } from '../../../../../../../util/drawing/direction-field';
-import DirectionField from '../../../../../../../lib/structures/direction-field';
+import DirectionField from '../../../../../../../util/structures/direction-field';
 
 const PREVIEW_WIDTH = 500;
 const ARROW_LENGTH = 8;

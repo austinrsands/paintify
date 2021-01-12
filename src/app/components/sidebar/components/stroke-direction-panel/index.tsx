@@ -16,7 +16,7 @@ import gridPoints from '../../../../../util/image-processing/grid-points';
 import edgeDetails from '../../../../../util/image-processing/edge-details';
 import noiseDirection from '../../../../../util/image-processing/noise-direction';
 import { strokeDirectionField } from '../../../../../util/image-processing/stroke-direction';
-import Size from '../../../../../lib/structures/size';
+import Size from '../../../../../util/structures/size';
 
 const useStyles = makeStyles({
   option: {

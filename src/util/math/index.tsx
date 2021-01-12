@@ -1,6 +1,6 @@
-import InclusiveRange from '../../lib/structures/inclusive-range';
-import Size from '../../lib/structures/size';
-import Vector from '../../lib/structures/vector';
+import InclusiveRange from '../structures/inclusive-range';
+import Size from '../structures/size';
+import Vector from '../structures/vector';
 
 /**
  * Returns the interpolated value of a point on a bezier curve

@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton } from '@material-ui/core';
 import PauseRoundedIcon from '@material-ui/icons/PauseRounded';
 import PlayArrowRoundedIcon from '@material-ui/icons/PlayArrowRounded';
-import StyleProps from '../../../../../lib/structures/style-props';
+import StyleProps from '../../../../../util/structures/style-props';
 import { useAppContext } from '../../../../context';
 
 const PlayPauseButton: React.FC<StyleProps> = (props) => {

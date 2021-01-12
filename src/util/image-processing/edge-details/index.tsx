@@ -1,4 +1,4 @@
-import Vector from '../../../lib/structures/vector';
+import Vector from '../../structures/vector';
 import { convolveWithGrayscale } from '../convolution';
 import { SOBEL_X, SOBEL_Y } from '../kernels';
 

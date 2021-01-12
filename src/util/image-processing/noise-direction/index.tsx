@@ -1,5 +1,5 @@
 import SimplexNoise from 'simplex-noise';
-import Vector from '../../../lib/structures/vector';
+import Vector from '../../structures/vector';
 
 /**
  * Returns the angle of a point in a simplex noise field

@@ -1,4 +1,4 @@
-import Vector from '../../../lib/structures/vector';
+import Vector from '../../structures/vector';
 
 /**
  * Draws a line segment

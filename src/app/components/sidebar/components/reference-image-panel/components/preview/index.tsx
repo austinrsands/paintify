@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
 import { useAppContext } from '../../../../../../context';
-import StyleProps from '../../../../../../../lib/structures/style-props';
+import StyleProps from '../../../../../../../util/structures/style-props';
 
 const ReferenceImagePreview: React.FC<StyleProps> = (props) => {
   const { state } = useAppContext();

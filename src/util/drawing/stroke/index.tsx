@@ -1,6 +1,6 @@
-import Brush from '../../../lib/structures/brush';
-import Color from '../../../lib/structures/color';
-import Vector from '../../../lib/structures/vector';
+import Brush from '../../structures/brush';
+import Color from '../../structures/color';
+import Vector from '../../structures/vector';
 import { brightness } from '../../image-processing/pixels';
 import { colinear } from '../../math';
 import { drawBristle } from '../bristle';

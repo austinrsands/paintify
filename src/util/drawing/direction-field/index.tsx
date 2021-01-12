@@ -1,5 +1,5 @@
-import DirectionField from '../../../lib/structures/direction-field';
-import Vector from '../../../lib/structures/vector';
+import DirectionField from '../../structures/direction-field';
+import Vector from '../../structures/vector';
 import { drawArrow } from '../arrow';
 
 /**

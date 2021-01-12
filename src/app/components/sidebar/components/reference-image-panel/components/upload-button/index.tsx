@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
 import CloudUploadRoundedIcon from '@material-ui/icons/CloudUploadRounded';
-import StyleProps from '../../../../../../../lib/structures/style-props/index';
+import StyleProps from '../../../../../../../util/structures/style-props/index';
 import { useAppContext } from '../../../../../../context';
 
 const getData = (bitmap: ImageBitmap): ImageData | null => {

@@ -1,7 +1,7 @@
-import InclusiveRange from '../../../lib/structures/inclusive-range';
-import QuadTree from '../../../lib/structures/quad-tree';
-import Size from '../../../lib/structures/size';
-import Vector from '../../../lib/structures/vector';
+import InclusiveRange from '../../structures/inclusive-range';
+import QuadTree from '../../structures/quad-tree';
+import Size from '../../structures/size';
+import Vector from '../../structures/vector';
 import { standardDeviation } from '../../math';
 import { pixelBrightness } from '../pixels';
 

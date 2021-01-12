@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 import TabPanelPreview from '../../../../../../../lib/components/tab-panel/preview';
-import Size from '../../../../../../../lib/structures/size';
-import StyleProps from '../../../../../../../lib/structures/style-props';
-import Brush from '../../../../../../../lib/structures/brush';
-import Vector from '../../../../../../../lib/structures/vector';
-import Color from '../../../../../../../lib/structures/color';
+import Size from '../../../../../../../util/structures/size';
+import StyleProps from '../../../../../../../util/structures/style-props';
+import Brush from '../../../../../../../util/structures/brush';
+import Vector from '../../../../../../../util/structures/vector';
+import Color from '../../../../../../../util/structures/color';
 import { fillBackground } from '../../../../../../../util/drawing/background';
 import { paintStroke } from '../../../../../../../util/drawing/stroke';
 

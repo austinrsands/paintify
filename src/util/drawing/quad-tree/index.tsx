@@ -1,5 +1,5 @@
-import QuadTree from '../../../lib/structures/quad-tree';
-import Vector from '../../../lib/structures/vector';
+import QuadTree from '../../structures/quad-tree';
+import Vector from '../../structures/vector';
 import { drawLineSegment } from '../line';
 
 /**

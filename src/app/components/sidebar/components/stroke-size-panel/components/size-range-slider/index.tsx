@@ -2,7 +2,7 @@ import React from 'react';
 import ImprovedSlider, {
   ImprovedSliderProps,
 } from '../../../../../../../lib/components/improved-slider';
-import InclusiveRange from '../../../../../../../lib/structures/inclusive-range';
+import InclusiveRange from '../../../../../../../util/structures/inclusive-range';
 import { useAppContext } from '../../../../../../context';
 
 const SizeRangeSlider: React.FC<ImprovedSliderProps> = (props) => {

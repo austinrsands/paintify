@@ -1,5 +1,5 @@
-import InclusiveRange from '../../../lib/structures/inclusive-range';
-import QuadTree from '../../../lib/structures/quad-tree';
+import InclusiveRange from '../../../util/structures/inclusive-range';
+import QuadTree from '../../../util/structures/quad-tree';
 import { randomSeed } from '../../../util/math';
 
 interface AppState {

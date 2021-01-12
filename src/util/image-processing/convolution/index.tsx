@@ -1,4 +1,4 @@
-import Vector from '../../../lib/structures/vector';
+import Vector from '../../structures/vector';
 import { isOdd } from '../../math';
 import { pixelBrightness } from '../pixels';
 

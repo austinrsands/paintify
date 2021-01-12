@@ -1,4 +1,4 @@
-import Vector from '../../../lib/structures/vector';
+import Vector from '../../structures/vector';
 
 /**
  * Returns an array of points on an image that fall on a grid

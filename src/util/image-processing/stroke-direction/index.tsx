@@ -1,7 +1,7 @@
-import DirectedPoint from '../../../lib/structures/directed-point';
-import DirectionField from '../../../lib/structures/direction-field';
-import Size from '../../../lib/structures/size';
-import Vector from '../../../lib/structures/vector';
+import DirectedPoint from '../../structures/directed-point';
+import DirectionField from '../../structures/direction-field';
+import Size from '../../structures/size';
+import Vector from '../../structures/vector';
 import { EdgeDetails } from '../edge-details';
 
 /**
