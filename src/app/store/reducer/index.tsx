@@ -22,6 +22,48 @@ const AppReducer = (state: AppState, action: AppAction) => {
         isPainting: false,
       };
     }
+    case 'update-brush-roundness': {
+      return {
+        ...state,
+        brushRoundness: action.roundness,
+      };
+    }
+    case 'update-stroke-texture': {
+      return {
+        ...state,
+        strokeTexture: action.texture,
+      };
+    }
+    case 'update-stroke-alpha': {
+      return {
+        ...state,
+        strokeAlpha: action.alpha,
+      };
+    }
+    case 'update-brush-density': {
+      return {
+        ...state,
+        brushDensity: action.density,
+      };
+    }
+    case 'update-stroke-length': {
+      return {
+        ...state,
+        strokeLength: action.length,
+      };
+    }
+    case 'update-stroke-taper': {
+      return {
+        ...state,
+        strokeTaper: action.taper,
+      };
+    }
+    case 'update-stroke-lift': {
+      return {
+        ...state,
+        strokeLift: action.lift,
+      };
+    }
     case 'update-quad-tree': {
       return {
         ...state,

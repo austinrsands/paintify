@@ -27,7 +27,7 @@ export const paintStroke = (
   length: number,
   taper: number,
   lift: number,
-  segmentLength: number,
+  segmentLength: number = 25,
 ) => {
   // Used to calculate start and end points
   const actualLength = length - brush.size.width;

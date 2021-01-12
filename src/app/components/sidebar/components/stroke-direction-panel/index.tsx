@@ -97,7 +97,7 @@ const StrokeDirectionPanel: React.FC<TabPanelProps> = (props) => {
         <TabPanelLabel title="Noise Curl">
           <NoiseCurlSlider className={classes.option} />
         </TabPanelLabel>
-        <TabPanelLabel title="Edge Threshold">
+        <TabPanelLabel title="Threshold">
           <EdgeThresholdSlider className={classes.option} />
         </TabPanelLabel>
       </TabPanelContent>

@@ -1,3 +1,4 @@
+import Color from '../structures/color';
 import InclusiveRange from '../structures/inclusive-range';
 import Size from '../structures/size';
 import Vector from '../structures/vector';
@@ -142,3 +143,14 @@ export const randomSeed = (): string =>
  */
 export const scaleToFit = (source: Size, target: Size) =>
   Math.min(target.width / source.width, target.height / source.height);
+
+/**
+ * Returns a random color
+ * @returns a random color
+ */
+export const randomColor = (): Color => ({
+  red: Math.random() * 255,
+  green: Math.random() * 255,
+  blue: Math.random() * 255,
+  alpha: 1,
+});

@@ -8,6 +8,13 @@ type AppAction =
       type: 'update-painting-context';
       context: OffscreenCanvasRenderingContext2D;
     }
+  | { type: 'update-brush-roundness'; roundness: number }
+  | { type: 'update-stroke-texture'; texture: number }
+  | { type: 'update-stroke-alpha'; alpha: number }
+  | { type: 'update-brush-density'; density: number }
+  | { type: 'update-stroke-length'; length: number }
+  | { type: 'update-stroke-taper'; taper: number }
+  | { type: 'update-stroke-lift'; lift: number }
   | { type: 'update-quad-tree'; tree: QuadTree }
   | { type: 'update-quad-tree-sampling-density'; density: number }
   | { type: 'update-quad-tree-subdivision-threshold'; threshold: number }

@@ -12,6 +12,7 @@ import {
 } from '../../../util/drawing/background';
 import { paintStroke } from '../../../util/drawing/stroke';
 import Brush from '../../../util/structures/brush';
+import { pixelColor } from '../../../util/image-processing/pixels';
 
 const canvasRoot = document.getElementById('canvas-root');
 
@@ -96,24 +97,50 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
   // Draw the painting on the canvas
   const draw = useCallback(
     (context: CanvasRenderingContext2D, deltaTime: number) => {
-      if (!(canvasRect && state.paintingContext)) return;
+      if (
+        !(
+          state.imageData &&
+          state.quadTree &&
+          canvasRect &&
+          state.paintingContext
+        )
+      )
+        return;
 
       // Paint a stroke on the painting
-      if (state.isPainting)
+      if (state.isPainting) {
+        const position: Vector = {
+          x: Math.floor(Math.random() * state.paintingContext.canvas.width),
+          y: Math.floor(Math.random() * state.paintingContext.canvas.height),
+        };
+
+        const direction = Math.random() * 2 * Math.PI;
+
+        const color = {
+          ...pixelColor(state.imageData, position),
+          alpha: state.strokeAlpha,
+        };
+
+        const length = state.quadTree.smallestBoundingSubtree(position)?.rect
+          .size.width;
+
+        if (!length) return;
+
         paintStroke(
           state.paintingContext,
-          new Brush({ width: 30, height: 60 }, 0.2, 0.7),
-          {
-            x: Math.random() * state.paintingContext.canvas.width,
-            y: Math.random() * state.paintingContext.canvas.height,
-          },
-          Math.random() * 2 * Math.PI,
-          { red: 50, green: 168, blue: 82, alpha: 0.3 },
-          250,
-          0.1,
-          1,
-          25,
+          new Brush(
+            { width: 30, height: 60 },
+            state.strokeTexture,
+            state.brushDensity,
+          ),
+          position,
+          direction,
+          color,
+          length,
+          state.strokeTaper,
+          state.strokeLift,
         );
+      }
 
       // Show painting on canvas
       clearBackground(context);
@@ -125,7 +152,18 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
         canvasRect.size.height,
       );
     },
-    [canvasRect, state.isPainting, state.paintingContext],
+    [
+      canvasRect,
+      state.brushDensity,
+      state.imageData,
+      state.isPainting,
+      state.paintingContext,
+      state.quadTree,
+      state.strokeAlpha,
+      state.strokeLift,
+      state.strokeTaper,
+      state.strokeTexture,
+    ],
   );
 
   return (

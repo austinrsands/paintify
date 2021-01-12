@@ -20,7 +20,7 @@ const TabPanelTitle: React.FC<TabPanelTitleProps> = ({
   return (
     <Typography
       className={clsx(classes.root, className)}
-      variant="h6"
+      variant="h5"
       {...rest}
     >
       {children}
