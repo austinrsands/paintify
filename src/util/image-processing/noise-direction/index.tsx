@@ -10,7 +10,7 @@ import Vector from '../../structures/vector';
  * @param noiseCurl the amount to curl the noise function
  * @returns the angle of the given point in the noise field
  */
-const noiseDirection = (
+const getNoiseDirection = (
   point: Vector,
   noiseScale: number,
   noiseSeed: string,
@@ -36,4 +36,4 @@ const noiseDirection = (
   return direction;
 };
 
-export default noiseDirection;
+export default getNoiseDirection;

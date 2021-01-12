@@ -2,8 +2,8 @@ import InclusiveRange from '../../structures/inclusive-range';
 import QuadTree from '../../structures/quad-tree';
 import Size from '../../structures/size';
 import Vector from '../../structures/vector';
-import { standardDeviation } from '../../math';
-import { pixelBrightness } from '../pixels';
+import { getStandardDeviation } from '../../math';
+import { getPixelBrightness } from '../pixels';
 
 /**
  * Returns an array of pixel brightness values sampled from an image
@@ -27,7 +27,7 @@ const sampleBrightnesses = (
       x: Math.floor(position.x + Math.random() * size.width),
       y: Math.floor(position.y + Math.random() * size.height),
     };
-    const sampleBrightness = pixelBrightness(imageData, samplePoint);
+    const sampleBrightness = getPixelBrightness(imageData, samplePoint);
     brightnesses.push(sampleBrightness);
   }
   return brightnesses;
@@ -79,7 +79,7 @@ export const generateQuadTree = (
     );
 
     // Continue subdividing if standard deviation of sampled brightness is too large
-    if (standardDeviation(samples) > subdivisionThreshold) {
+    if (getStandardDeviation(samples) > subdivisionThreshold) {
       tree.subdivide();
       if (tree.subtrees.topLeft) deepSubdivide(tree.subtrees.topLeft);
       if (tree.subtrees.topRight) deepSubdivide(tree.subtrees.topRight);

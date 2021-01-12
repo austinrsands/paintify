@@ -1,8 +1,8 @@
 import Brush from '../../structures/brush';
 import Color from '../../structures/color';
 import Vector from '../../structures/vector';
-import { brightness } from '../../image-processing/pixels';
-import { colinear } from '../../math';
+import { getBrightness } from '../../image-processing/pixels';
+import { areColinear } from '../../math';
 import { drawBristle } from '../bristle';
 
 /**
@@ -51,7 +51,7 @@ export const paintStroke = (
   };
 
   // Used to optimize drawing
-  const strokeIsStraight = colinear(start, end, control);
+  const strokeIsStraight = areColinear(start, end, control);
 
   brush.bristleData.forEach((bristleDatum) => {
     // Determine how long bristle stays on canvas
@@ -71,7 +71,7 @@ export const paintStroke = (
       : Math.max(Math.round(pathLength / segmentLength), 1);
 
     // Determine shifted color
-    const baseColorBrightness = brightness(paintColor);
+    const baseColorBrightness = getBrightness(paintColor);
     const availableBrightness =
       bristleDatum.paintShift > 0
         ? 255 - baseColorBrightness

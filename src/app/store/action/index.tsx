@@ -12,7 +12,7 @@ type AppAction =
   | { type: 'update-stroke-texture'; texture: number }
   | { type: 'update-stroke-alpha'; alpha: number }
   | { type: 'update-brush-density'; density: number }
-  | { type: 'update-stroke-length'; length: number }
+  | { type: 'update-stroke-length-ratio'; ratio: number }
   | { type: 'update-stroke-taper'; taper: number }
   | { type: 'update-stroke-lift'; lift: number }
   | { type: 'update-quad-tree'; tree: QuadTree }

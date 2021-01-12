@@ -12,12 +12,12 @@ const StrokeLengthSlider: React.FC<ImprovedSliderProps> = (props) => {
     value: number[] | number,
   ) => {
     if (value instanceof Array) return;
-    dispatch({ type: 'update-stroke-length', length: value });
+    dispatch({ type: 'update-stroke-length-ratio', ratio: value });
   };
 
   return (
     <ImprovedSlider
-      initialValue={state.strokeLength}
+      initialValue={state.strokeLengthRatio}
       min={1}
       max={10}
       step={1}

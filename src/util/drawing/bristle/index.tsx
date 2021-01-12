@@ -1,6 +1,6 @@
 import Color from '../../structures/color';
 import Vector from '../../structures/vector';
-import { bezierPoint, bezierTangent } from '../../math';
+import { getBezierPoint, getBezierTangent } from '../../math';
 
 /**
  * Draws a paint brush bristle
@@ -38,12 +38,12 @@ export const drawBristle = (
   context.beginPath();
   for (let time = 0; time <= lifetime; time += timestep) {
     const currentBrushPosition: Vector = {
-      x: bezierPoint(start.x, control.x, end.x, time),
-      y: bezierPoint(start.y, control.y, end.y, time),
+      x: getBezierPoint(start.x, control.x, end.x, time),
+      y: getBezierPoint(start.y, control.y, end.y, time),
     };
     const currentTangent: Vector = {
-      x: bezierTangent(start.x, control.x, end.x, time),
-      y: bezierTangent(start.y, control.y, end.y, time),
+      x: getBezierTangent(start.x, control.x, end.x, time),
+      y: getBezierTangent(start.y, control.y, end.y, time),
     };
     const currentRotation = Math.atan2(currentTangent.y, currentTangent.x);
 

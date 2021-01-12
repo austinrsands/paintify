@@ -12,14 +12,14 @@ import { EdgeDetails } from '../edge-details';
  * @param edgeThreshold the threshold at which the image's edge direction determines the stroke direction
  * @returns the direction that the stroke should be painted
  */
-const strokeDirection = (
+const getStrokeDirection = (
   edgeDirection: number,
   noiseDirection: number,
   edgeStrength: number,
   edgeThreshold: number,
 ) => (Math.abs(edgeStrength) < edgeThreshold ? noiseDirection : edgeDirection);
 
-export default strokeDirection;
+export default getStrokeDirection;
 
 /**
  * Returns a direction field for paint strokes
@@ -31,7 +31,7 @@ export default strokeDirection;
  * @param edgeThreshold the threshold at which the image's edge direction determines the stroke direction
  * @returns the direction field for paint strokes
  */
-export const strokeDirectionField = (
+export const generateStrokeDirectionField = (
   size: Size,
   points: Vector[],
   edgeInformation: EdgeDetails[],
@@ -51,7 +51,7 @@ export const strokeDirectionField = (
     const edgeStrength = edgeInformation[i].strength;
     const noiseDirection = noiseInformation[i];
     const point = points[i];
-    const direction = strokeDirection(
+    const direction = getStrokeDirection(
       edgeDirection,
       noiseDirection,
       edgeStrength,

@@ -12,7 +12,7 @@ import Vector from '../structures/vector';
  * @param time the interpolation value in the range [0, 1]
  * @returns the point on the described bezier curve at the given time
  */
-export const bezierPoint = (
+export const getBezierPoint = (
   start: number,
   control: number,
   end: number,
@@ -29,7 +29,7 @@ export const bezierPoint = (
  * @param time the interpolation value in the range [0, 1]
  * @returns the slope of the line tangent to the described bezier curve at the given time
  */
-export const bezierTangent = (
+export const getBezierTangent = (
   start: number,
   control: number,
   end: number,
@@ -44,8 +44,11 @@ export const bezierTangent = (
  * @param epsilon the minimum difference for which the numbers will be considered unequal
  * @returns whether the difference between a and b is less than epsilon
  */
-export const almostEqual = (a: number, b: number, epsilon: number = 0.0001) =>
-  Math.abs(a - b) < epsilon;
+export const areAlmostEqual = (
+  a: number,
+  b: number,
+  epsilon: number = 0.0001,
+) => Math.abs(a - b) < epsilon;
 
 /**
  * Returns whether three points fall on the same line
@@ -55,8 +58,8 @@ export const almostEqual = (a: number, b: number, epsilon: number = 0.0001) =>
  * @param c the third point
  * @returns whether a, b, and c fall on the same line
  */
-export const colinear = (a: Vector, b: Vector, c: Vector) =>
-  almostEqual(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y), 0);
+export const areColinear = (a: Vector, b: Vector, c: Vector) =>
+  areAlmostEqual(a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y), 0);
 
 /**
  * Clamps a number in an inclusive range.
@@ -65,7 +68,7 @@ export const colinear = (a: Vector, b: Vector, c: Vector) =>
  * @param range the range in which to clamp the number
  * @returns the given number clamped to the given range
  */
-export const clamp = (num: number, range: InclusiveRange) =>
+export const clamped = (num: number, range: InclusiveRange) =>
   Math.min(Math.max(num, range.min), range.max);
 
 /**
@@ -74,7 +77,7 @@ export const clamp = (num: number, range: InclusiveRange) =>
  * @param nums an array of numbers
  * @returns the standard deviation of the given array
  */
-export const standardDeviation = (nums: number[]) => {
+export const getStandardDeviation = (nums: number[]) => {
   const mean = nums.reduce((a, b) => a + b) / nums.length;
   return Math.sqrt(
     nums.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) / nums.length,
@@ -87,7 +90,7 @@ export const standardDeviation = (nums: number[]) => {
  * @param nums an array of numbers
  * @returns the standard deviation of the array
  */
-export const average = (nums: number[]) =>
+export const getAverage = (nums: number[]) =>
   nums.reduce((a: number, b: number) => a + b) / nums.length;
 
 /**
@@ -97,8 +100,8 @@ export const average = (nums: number[]) =>
  * @param b the second number
  * @returns the greatest common positive divisor between a and b
  */
-export const greatestCommonDivisor = (a: number, b: number): number =>
-  b ? greatestCommonDivisor(b, a % b) : Math.abs(a);
+export const getGreatestCommonDivisor = (a: number, b: number): number =>
+  b ? getGreatestCommonDivisor(b, a % b) : Math.abs(a);
 
 /**
  * Returns whether the given number is even
@@ -131,7 +134,7 @@ export const isInRange = (num: number, range: InclusiveRange) =>
  *
  * @returns a random seed
  */
-export const randomSeed = (): string =>
+export const getRandomSeed = (): string =>
   Math.random().toString(36).slice(2).toUpperCase();
 
 /**
@@ -141,14 +144,14 @@ export const randomSeed = (): string =>
  * @param target the size of the rectangle to fit the source rectangle
  * @returns the amount needed to scale the source rectange to fit in the target rectangle
  */
-export const scaleToFit = (source: Size, target: Size) =>
+export const getScaleToFit = (source: Size, target: Size) =>
   Math.min(target.width / source.width, target.height / source.height);
 
 /**
  * Returns a random color
  * @returns a random color
  */
-export const randomColor = (): Color => ({
+export const getRandomColor = (): Color => ({
   red: Math.random() * 255,
   green: Math.random() * 255,
   blue: Math.random() * 255,

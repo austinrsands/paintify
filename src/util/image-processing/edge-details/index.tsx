@@ -14,7 +14,7 @@ export interface EdgeDetails {
  * @param point a point in the image
  * @return an object containing the strength and direction of the edge at the given point in the image
  */
-const edgeDetails = (imageData: ImageData, point: Vector) => {
+const getEdgeDetails = (imageData: ImageData, point: Vector) => {
   // Snap point to pixel grid
   const pixelCoordinate: Vector = {
     x: Math.floor(point.x),
@@ -38,4 +38,4 @@ const edgeDetails = (imageData: ImageData, point: Vector) => {
   return details;
 };
 
-export default edgeDetails;
+export default getEdgeDetails;

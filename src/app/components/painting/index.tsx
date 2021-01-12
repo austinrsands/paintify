@@ -3,7 +3,7 @@ import { Portal } from '@material-ui/core';
 import Canvas, { CanvasProps } from '../../../lib/components/canvas';
 import Size from '../../../util/structures/size';
 import { useAppContext } from '../../context';
-import { scaleToFit } from '../../../util/math';
+import { getScaleToFit } from '../../../util/math';
 import Rect from '../../../util/structures/rect';
 import Vector from '../../../util/structures/vector';
 import {
@@ -12,7 +12,10 @@ import {
 } from '../../../util/drawing/background';
 import { paintStroke } from '../../../util/drawing/stroke';
 import Brush from '../../../util/structures/brush';
-import { pixelColor } from '../../../util/image-processing/pixels';
+import { getPixelColor } from '../../../util/image-processing/pixels';
+import getStrokeDirection from '../../../util/image-processing/stroke-direction';
+import getEdgeDetails from '../../../util/image-processing/edge-details';
+import getNoiseDirection from '../../../util/image-processing/noise-direction';
 
 const canvasRoot = document.getElementById('canvas-root');
 
@@ -76,7 +79,7 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     };
 
     // Determine the amount needed to scale the painting
-    const canvasScale = scaleToFit(paintingSize, maxCanvasSize);
+    const canvasScale = getScaleToFit(paintingSize, maxCanvasSize);
 
     // Determine the size of the canvas
     const canvasSize: Size = {
@@ -94,55 +97,10 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     setCanvasRect({ size: canvasSize, position: canvasPosition });
   }, [size.height, size.width, state.paintingContext]);
 
-  // Draw the painting on the canvas
-  const draw = useCallback(
-    (context: CanvasRenderingContext2D, deltaTime: number) => {
-      if (
-        !(
-          state.imageData &&
-          state.quadTree &&
-          canvasRect &&
-          state.paintingContext
-        )
-      )
-        return;
-
-      // Paint a stroke on the painting
-      if (state.isPainting) {
-        const position: Vector = {
-          x: Math.floor(Math.random() * state.paintingContext.canvas.width),
-          y: Math.floor(Math.random() * state.paintingContext.canvas.height),
-        };
-
-        const direction = Math.random() * 2 * Math.PI;
-
-        const color = {
-          ...pixelColor(state.imageData, position),
-          alpha: state.strokeAlpha,
-        };
-
-        const length = state.quadTree.smallestBoundingSubtree(position)?.rect
-          .size.width;
-
-        if (!length) return;
-
-        paintStroke(
-          state.paintingContext,
-          new Brush(
-            { width: 30, height: 60 },
-            state.strokeTexture,
-            state.brushDensity,
-          ),
-          position,
-          direction,
-          color,
-          length,
-          state.strokeTaper,
-          state.strokeLift,
-        );
-      }
-
-      // Show painting on canvas
+  // Draws painting onto canvas
+  const updateCanvas = useCallback(
+    (context: CanvasRenderingContext2D) => {
+      if (!state.paintingContext || !canvasRect) return;
       clearBackground(context);
       context.drawImage(
         state.paintingContext.canvas,
@@ -152,18 +110,83 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
         canvasRect.size.height,
       );
     },
-    [
-      canvasRect,
-      state.brushDensity,
-      state.imageData,
-      state.isPainting,
+    [canvasRect, state.paintingContext],
+  );
+
+  // Paints strokes onto painting
+  const paint = useCallback(() => {
+    if (!state.paintingContext || !state.imageData || !state.quadTree) return;
+
+    const strokePosition: Vector = {
+      x: Math.floor(Math.random() * state.paintingContext.canvas.width),
+      y: Math.floor(Math.random() * state.paintingContext.canvas.height),
+    };
+
+    const paintColor = {
+      ...getPixelColor(state.imageData, strokePosition),
+      alpha: state.strokeAlpha,
+    };
+
+    const edgeDetails = getEdgeDetails(state.imageData, strokePosition);
+
+    const noiseDirection = getNoiseDirection(
+      strokePosition,
+      state.noiseScale,
+      state.noiseSeed,
+      state.noiseCurl,
+    );
+    const strokeDirection = getStrokeDirection(
+      edgeDetails.direction,
+      noiseDirection,
+      edgeDetails.strength,
+      state.edgeThreshold,
+    );
+
+    const strokeLength = state.quadTree.smallestBoundingSubtree(strokePosition)
+      ?.diagonal;
+    if (!strokeLength) return;
+
+    const brushHeight = strokeLength / state.strokeLengthRatio;
+    const brushWidth = brushHeight * state.brushRoundness;
+
+    paintStroke(
       state.paintingContext,
-      state.quadTree,
-      state.strokeAlpha,
-      state.strokeLift,
+      new Brush(
+        { width: brushWidth, height: brushHeight },
+        state.strokeTexture,
+        state.brushDensity,
+      ),
+      strokePosition,
+      strokeDirection,
+      paintColor,
+      strokeLength,
       state.strokeTaper,
-      state.strokeTexture,
-    ],
+      state.strokeLift,
+    );
+  }, [
+    state.brushDensity,
+    state.brushRoundness,
+    state.edgeThreshold,
+    state.imageData,
+    state.noiseCurl,
+    state.noiseScale,
+    state.noiseSeed,
+    state.paintingContext,
+    state.quadTree,
+    state.strokeAlpha,
+    state.strokeLengthRatio,
+    state.strokeLift,
+    state.strokeTaper,
+    state.strokeTexture,
+  ]);
+
+  // Draw the painting on the canvas
+  const draw = useCallback(
+    (context: CanvasRenderingContext2D, deltaTime: number) => {
+      if (state.isPainting) paint();
+      updateCanvas(context);
+    },
+    [paint, state.isPainting, updateCanvas],
   );
 
   return (

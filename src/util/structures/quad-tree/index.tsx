@@ -17,6 +17,7 @@ interface Subtrees {
  */
 class QuadTree {
   readonly rect: Rect;
+  readonly diagonal: number;
   readonly subtrees: Subtrees;
 
   /**
@@ -28,6 +29,7 @@ class QuadTree {
    */
   constructor(position: Vector, size: Size) {
     this.rect = { position, size };
+    this.diagonal = Math.hypot(size.width, size.height);
     this.subtrees = {};
   }
 

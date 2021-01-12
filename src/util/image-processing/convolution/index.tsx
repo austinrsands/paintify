@@ -1,6 +1,6 @@
 import Vector from '../../structures/vector';
 import { isOdd } from '../../math';
-import { pixelBrightness } from '../pixels';
+import { getPixelBrightness } from '../pixels';
 
 /**
  * Returns whether the given kernel is an odd square
@@ -25,7 +25,7 @@ export const convolveWithGrayscale = (
   point: Vector,
 ) => {
   // Return brightness of given point if kernel is invalid
-  if (!kernelIsValid) return pixelBrightness(imageData, point);
+  if (!kernelIsValid) return getPixelBrightness(imageData, point);
 
   // Determine point in image corresponding to top left of kernel
   const startingPoint: Vector = {
@@ -41,7 +41,7 @@ export const convolveWithGrayscale = (
         x: startingPoint.x + rowIndex,
         y: startingPoint.y + columnIndex,
       };
-      const brightness = pixelBrightness(imageData, currentPoint) || 0;
+      const brightness = getPixelBrightness(imageData, currentPoint) || 0;
       sum += num * brightness;
     }),
   );

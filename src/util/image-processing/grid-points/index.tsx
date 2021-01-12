@@ -6,7 +6,7 @@ import Vector from '../../structures/vector';
  * @param imageData an image
  * @param pointsPerRow the number of grid points per row
  */
-const gridPoints = (imageData: ImageData, pointsPerRow: number) => {
+const generateGridPoints = (imageData: ImageData, pointsPerRow: number) => {
   const spacing = imageData.width / (pointsPerRow + 1);
   const points: Vector[] = [];
   for (let y = spacing / 2; y < imageData.height; y += spacing) {
@@ -17,4 +17,4 @@ const gridPoints = (imageData: ImageData, pointsPerRow: number) => {
   return points;
 };
 
-export default gridPoints;
+export default generateGridPoints;

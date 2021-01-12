@@ -7,7 +7,7 @@ import Vector from '../../../../../../../util/structures/vector';
 import { fillBackground } from '../../../../../../../util/drawing/background';
 import { paintStroke } from '../../../../../../../util/drawing/stroke';
 import { useAppContext } from '../../../../../../context';
-import { randomColor } from '../../../../../../../util/math';
+import { getRandomColor } from '../../../../../../../util/math';
 
 const PREVIEW_SIZE: Size = { width: 300, height: 200 };
 const STROKE_LENGTH = 250;
@@ -18,7 +18,7 @@ const BrushStrokePreview: React.FC<StyleProps> = (props) => {
 
   // Memoize brush
   const brush = useMemo(() => {
-    const height = STROKE_LENGTH / state.strokeLength;
+    const height = STROKE_LENGTH / state.strokeLengthRatio;
     const width = height * state.brushRoundness;
     return new Brush(
       { width, height },
@@ -28,7 +28,7 @@ const BrushStrokePreview: React.FC<StyleProps> = (props) => {
   }, [
     state.brushDensity,
     state.brushRoundness,
-    state.strokeLength,
+    state.strokeLengthRatio,
     state.strokeTexture,
   ]);
 
@@ -42,7 +42,7 @@ const BrushStrokePreview: React.FC<StyleProps> = (props) => {
       };
 
       // Determine random color to paint
-      const color = { ...randomColor(), alpha: state.strokeAlpha };
+      const color = { ...getRandomColor(), alpha: state.strokeAlpha };
 
       context.fillStyle = 'white';
       fillBackground(context);

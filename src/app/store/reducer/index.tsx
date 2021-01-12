@@ -46,10 +46,10 @@ const AppReducer = (state: AppState, action: AppAction) => {
         brushDensity: action.density,
       };
     }
-    case 'update-stroke-length': {
+    case 'update-stroke-length-ratio': {
       return {
         ...state,
-        strokeLength: action.length,
+        strokeLength: action.ratio,
       };
     }
     case 'update-stroke-taper': {
