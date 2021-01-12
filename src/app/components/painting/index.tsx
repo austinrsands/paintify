@@ -43,6 +43,9 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
   const { state, dispatch } = useAppContext();
   const [canvasRect, setCanvasRect] = useState<Rect>();
 
+  // Holds various sizes of the current brush style
+  const [brushes, setBrushes] = useState<Map<number, Brush>>(new Map());
+
   // Create the painting context
   useEffect(() => {
     if (!state.imageData) return;
@@ -122,6 +125,58 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     return null;
   }, [state.brightnessRange, state.imageData, state.paintingContext]);
 
+  // Clear the brushes when brush style changes
+  useEffect(() => {
+    if (
+      state.brushRoundness ||
+      state.strokeTexture ||
+      state.brushDensity ||
+      state.strokeLengthRatio
+    )
+      setBrushes(new Map());
+  }, [
+    state.brushDensity,
+    state.brushRoundness,
+    state.strokeLengthRatio,
+    state.strokeTexture,
+  ]);
+
+  // Returns a brush to paint with
+  const getBrush = useCallback(
+    (strokeLength: number) => {
+      // Determine brush height to use it as a key
+      const brushHeight = strokeLength / state.strokeLengthRatio;
+
+      // Use integer key to avoid floating point errors
+      const brushKey = Math.floor(brushHeight);
+
+      // If brush is saved, return it
+      const savedBrush = brushes.get(brushKey);
+      if (savedBrush) return savedBrush;
+
+      // Create a new brush
+      const brushWidth = brushHeight * state.brushRoundness;
+      const newBrush = new Brush(
+        { width: brushWidth, height: brushHeight },
+        state.strokeTexture,
+        state.brushDensity,
+      );
+
+      // Save the brush
+      setBrushes((prev) => prev.set(brushKey, newBrush));
+
+      // Return the brush
+      return newBrush;
+    },
+    [
+      brushes,
+      state.brushDensity,
+      state.brushRoundness,
+      state.strokeLengthRatio,
+      state.strokeTexture,
+    ],
+  );
+
   // Draws painting onto canvas
   const updateCanvas = useCallback(
     (context: CanvasRenderingContext2D) => {
@@ -174,16 +229,12 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     // Return if point is not contained in quad tree (should never happen though)
     if (!strokeLength) return;
 
-    const brushHeight = strokeLength / state.strokeLengthRatio;
-    const brushWidth = brushHeight * state.brushRoundness;
+    // Determine brush to use
+    const brush = getBrush(strokeLength);
 
     paintStroke(
       state.paintingContext,
-      new Brush(
-        { width: brushWidth, height: brushHeight },
-        state.strokeTexture,
-        state.brushDensity,
-      ),
+      brush,
       strokePosition,
       strokeDirection,
       paintColor,
@@ -192,9 +243,8 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
       state.strokeLift,
     );
   }, [
+    getBrush,
     lookForStrokePosition,
-    state.brushDensity,
-    state.brushRoundness,
     state.edgeThreshold,
     state.imageData,
     state.noiseCurl,
@@ -203,10 +253,8 @@ const Painting: React.FC<PaintingProps> = ({ size, ...rest }) => {
     state.paintingContext,
     state.quadTree,
     state.strokeAlpha,
-    state.strokeLengthRatio,
     state.strokeLift,
     state.strokeTaper,
-    state.strokeTexture,
   ]);
 
   // Draw the painting on the canvas

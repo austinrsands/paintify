@@ -28,7 +28,7 @@ export const DEFAULT_APP_STATE: AppState = {
   isPainting: false,
   brushRoundness: 0.5,
   strokeTexture: 0.1,
-  strokeAlpha: 0.4,
+  strokeAlpha: 0.25,
   brushDensity: 0.7,
   strokeLengthRatio: 4,
   strokeTaper: 0.1,
