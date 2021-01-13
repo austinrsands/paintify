@@ -6,6 +6,7 @@ import Topbar from './components/topbar';
 import Painting from './components/painting';
 import useWindowSize from '../lib/hooks/use-window-size';
 import AppContextProvider from './context/provider';
+import BrowserSupportBackdrop from './components/browser-support-backdrop';
 
 const useStyles = makeStyles({
   sidebar: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles({
     height: '100vh',
     zIndex: -1,
   },
+  backdrop: {
+    zIndex: 1400,
+  },
 });
 
 const App: React.FC = () => {
@@ -35,6 +39,7 @@ const App: React.FC = () => {
         <Topbar className={classes.topbar} />
         <Sidebar className={classes.sidebar} />
         <Painting className={classes.painting} size={windowSize} />
+        <BrowserSupportBackdrop className={classes.backdrop} />
       </AppContextProvider>
     </ThemeProvider>
   );
