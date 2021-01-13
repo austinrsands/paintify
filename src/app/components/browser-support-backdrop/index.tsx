@@ -9,8 +9,17 @@ import {
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 
 // Returns whether browser supports newer features needed by this app
-const browserIsSupported: boolean =
-  createImageBitmap !== undefined && OffscreenCanvas !== undefined;
+const checkForBrowserSupport = () => {
+  try {
+    createImageBitmap;
+    OffscreenCanvas;
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+const browserIsSupported = checkForBrowserSupport();
 
 const useStyles = makeStyles((theme) => ({
   content: {
