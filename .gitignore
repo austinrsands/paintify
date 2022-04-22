@@ -1,9 +1,13 @@
 # dependencies
-node_modules/
+node_modules
 
-# build
-dist/
-.cache/
+# build artifacts
+dist
+build
 
 # logs
-debug.log
+yarn-debug.log*
+yarn-error.log*
+
+# macOS metadata
+.DS_Store
